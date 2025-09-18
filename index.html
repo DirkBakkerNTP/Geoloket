@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="NTP GeoLoket – overzicht van GIS-, FME-, scan- en AI-projecten met kaart en QR-codes." />
+  <meta name="theme-color" content="#00AEEF" />
+  <title>NTP GeoLoket</title>
+  <link rel="icon" href="Logo_NTP.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- QR generator -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+  <style>
+    :root{
+      --ntp-cyan:#00AEEF;
+      --text:#0f172a;
+      --muted:#475569;
+      --bg:#ffffff;
+      --card-border:#e5e7eb;
+    }
+    * { box-sizing: border-box }
+    body{margin:0;font-family:'Roboto',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+
+    .skip-link{
+      position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;
+    }
+    .skip-link:focus{
+      position:absolute;left:1rem;top:1rem;width:auto;height:auto;padding:.5rem 1rem;background:#000;color:#fff;border-radius:.5rem;z-index:100;
+    }
+
+    .topbar{position:sticky;top:0;z-index:60;background:#fff;border-bottom:1px solid var(--card-border)}
+    .topbar .brand{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:1.25rem 1rem;text-align:center}
+    .brand-title .name{font-weight:700;font-size:2rem;letter-spacing:.02em}
+    .brand-title .tag{font-size:1.1rem;color:var(--muted)}
+
+    .subnav{border-top:1px solid var(--card-border);background:#fff}
+    .subnav .row{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:2rem;padding:.5rem 1rem;flex-wrap:wrap}
+    .subnav a{
+      font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text);text-decoration:none;
+      font-size:1.05rem;padding:.75rem .25rem;border-bottom:3px solid transparent;cursor:pointer;outline-offset:4px;
+    }
+    .subnav a:hover{border-color:var(--ntp-cyan);color:var(--ntp-cyan)}
+    .subnav a:focus-visible{border-color:var(--ntp-cyan)}
+
+    html{scroll-behavior:smooth}
+    .section{scroll-margin-top:140px}
+
+    #projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-top:1.5rem}
+    .card{background:#fff;border:1px solid var(--card-border);border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.05);overflow:hidden;transition:transform .2s}
+    .card:hover{transform:translateY(-2px)}
+    .card h3{margin:0;font-size:1.1rem;font-weight:700;padding:.75rem 1rem;border-bottom:1px solid var(--card-border)}
+    .card .content{padding:1rem}
+    .btn{
+      display:inline-block;margin-top:.5rem;padding:.55rem .9rem;border-radius:8px;font-size:.95rem;font-weight:600;
+      text-decoration:none;background:var(--ntp-cyan);color:#fff;outline-offset:4px;
+    }
+    .btn:hover{background:#0095d6}
+    .btn:focus-visible{box-shadow:0 0 0 3px rgba(0,174,239,.35)}
+    .qr{margin-top:.75rem}
+    .qr canvas{display:block}
+
+    #map{width:100%;height:420px;margin-top:2rem;border:1px solid var(--card-border);border-radius:12px}
+    @media (max-width:900px){
+      .subnav .row{flex-direction:column;gap:.25rem}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{animation: none !important; transition: none !important}
+    }
+
+    /* Contactpagina styling */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: start;
+    }
+    .contact-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,.06);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .contact-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,.08);
+    }
+    .contact-card h3 {
+      margin: 0;
+      color: var(--ntp-cyan);
+    }
+    .contact-card p {
+      margin: .25rem 0;
+    }
+    .contact-card a {
+      color: var(--ntp-cyan);
+      text-decoration: none;
+    }
+    .contact-card a:hover {
+      text-decoration: underline;
+      color: #0095d6;
+    }
+    .locations-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .locations-grid img {
+      width: 100%;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 2px solid #f1f5f9;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .locations-grid img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0,0,0,.1);
+    }
+    @media (max-width: 900px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Direct naar hoofdinhoud</a>
+
+  <header class="topbar" role="banner">
+    <div class="brand" aria-label="NTP GeoLoket">
+      <img src="Logo_NTP.png" alt="NTP logo" style="height:60px;margin-bottom:.5rem;" loading="lazy" width="160" height="60"/>
+      <div class="brand-title" aria-live="polite">
+        <span class="name">GEOLOKET</span>
+        <span class="tag">Nauwkeurig · Toepasbaar · Praktisch</span>
+      </div>
+    </div>
+    <nav class="subnav" aria-label="Hoofdnavigatie">
+      <div class="row">
+        <a href="https://ntpbv.maps.arcgis.com/home/index.html" target="_blank" rel="noopener noreferrer">GIS</a>
+        <a href="#fme">FME</a>
+        <a href="#scan">SCAN</a>
+        <a href="#vgis">VGIS</a>
+        <a href="#ai">AI</a>
+        <a href="#nieuws">Nieuws</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section id="fme" class="section" style="padding:4rem 1rem;text-align:center;">
+      <h2>FME</h2>
+      <p>Voorbeeldpagina FME – inhoud volgt.</p>
+    </section>
+    <section id="scan" class="section" style="padding:4rem 1rem;">
+      <h2 style="text-align:center;">SCAN – Xgrid Projecten</h2>
+      <div id="projects" aria-live="polite"></div>
+      <div id="map" role="region" aria-label="Projectkaart"></div>
+    </section>
+    <section id="vgis" class="section" style="padding:4rem 1rem;text-align:center;">
+      <h2>VGIS</h2>
+      <p>Voorbeeldpagina VGIS – inhoud volgt.</p>
+    </section>
+    <section id="ai" class="section" style="padding:4rem 1rem;text-align:center;">
+      <h2>AI</h2>
+      <p>Voorbeeldpagina AI – inhoud volgt.</p>
+    </section>
+    <section id="nieuws" class="section" style="padding:4rem 1rem;text-align:center;">
+      <h2>Nieuws</h2>
+      <p>Voorbeeldpagina Nieuws – inhoud volgt.</p>
+    </section>
+
+    <!-- Gestylede contactsectie -->
+    <section id="contact" class="section" style="padding:4rem 1rem;">
+      <h2 style="text-align:center;margin-bottom:2rem;">Contact</h2>
+      <div class="contact-grid">
+        
+        <!-- Teamleden -->
+        <div>
+          <article class="contact-card">
+            <img src="bjorn.jpg" alt="Björn Wunderink" style="width:120px;height:120px;object-fit:cover;border-radius:12px;">
+            <div>
+              <h3>Björn Wunderink</h3>
+              <p><strong>Specialist Geo Data</strong></p>
+              <p>
+                <a href="mailto:b.wunderink@ntp.nl">b.wunderink@ntp.nl</a><br>
+                <a href="tel:+31610740548">+31 6 10740548</a>
+              </p>
+            </div>
+          </article>
+
+          <article class="contact-card">
+            <img src="thijs.jpg" alt="Thijs van der Pal" style="width:120px;height:120px;object-fit:cover;border-radius:12px;">
+            <div>
+              <h3>Thijs van der Pal</h3>
+              <p><strong>Specialist GIS Geodata</strong></p>
+              <p>
+                <a href="mailto:t.vanderpal@ntp.nl">t.vanderpal@ntp.nl</a><br>
+                <a href="tel:+31657404089">+31 6 57404089</a>
+              </p>
+            </div>
+          </article>
+
+          <article class="contact-card">
+            <img src="dirk.jpg" alt="Dirk Bakker" style="width:120px;height:120px;object-fit:cover;border-radius:12px;">
+            <div>
+              <h3>Dirk Bakker</h3>
+              <p><strong>Specialist FME Geodata</strong></p>
+              <p>
+                <a href="mailto:d.bakker@ntp.nl">d.bakker@ntp.nl</a><br>
+                <a href="tel:+31651033684">+31 6 51033684</a>
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <!-- Locaties -->
+        <div>
+          <h3 style="margin-top:0;">Onze locaties</h3>
+          <div class="locations-grid">
+            <img src="loc1.jpg" alt="NTP Locatie 1">
+            <img src="loc2.jpg" alt="NTP Locatie 2">
+            <img src="loc3.jpg" alt="NTP Locatie 3">
+            <img src="loc4.jpg" alt="NTP Locatie 4">
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const projects=[
+      {id:"apeldoorn-wilhelmina",title:"Apeldoorn – Wilhelmina Druckerstraat",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-wilhelmina_druckerstraat",lat:52.211653,lng:5.9548165,password:"NTP2025"},
+      {id:"doetinchem-1",title:"Doetinchem – 1",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-doetinchem_1",lat:51.9595997,lng:6.2990643},
+      {id:"huizen-1",title:"Huizen – Stadenlande 1",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-huizen_stadenlande_1",lat:52.2939495,lng:5.2532121},
+      {id:"huizen-2",title:"Huizen – Stadenlande 2",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-huizen_stadenlande_2",lat:52.2883596,lng:5.2535263},
+      {id:"nijkerk-camperbuurt",title:"Nijkerk – Camperbuurt",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-camperbuurt",lat:52.2302263,lng:5.4890607},
+      {id:"nijkerk-depot",title:"Nijkerk – Depot",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-depot_nijkerk",lat:52.2236767,lng:5.4610231},
+      {id:"westervoort",title:"Westervoort",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-westervoort",lat:51.9626715,lng:5.9669338},
+      {id:"beuningen-beuningerstraat",title:"Beuningen – Beuningerstraat",url:"https://lcc-viewer.xgrids.com/pub/f9942c07-f0e3-4a60-9849-905f94b5d204",lat:52.3593892,lng:6.9974174,password:"NTP2025"}
+    ];
+
+    function createProjectCard(p){
+      const card=document.createElement('article');
+      card.className='card';
+      card.setAttribute('aria-labelledby',`h-${p.id}`);
+      card.innerHTML=`
+        <h3 id="h-${p.id}">${p.title}</h3>
+        <div class="content">
+          <a class="btn" href="${p.url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${p.title} in een nieuw tabblad">Openen</a>
+          ${p.password ? `<p><small>Wachtwoord: ${p.password}</small></p>` : ""}
+          <div class="qr" aria-hidden="true"><canvas id="qr-${p.id}"></canvas></div>
+        </div>`;
+      return card;
+    }
+
+    function renderProjects(){
+      const container=document.getElementById('projects');
+      if(!container) return;
+      container.innerHTML='';
+      projects.forEach(p=>{
+        const card=createProjectCard(p);
+        container.appendChild(card);
+        if(typeof QRious!=='undefined'){
+          new QRious({
+            element:document.getElementById(`qr-${p.id}`),
+            value:p.url,
+            size:84,
+            foreground:'#00AEEF'
+          });
+        }
+      });
+    }
+
+    function initMap(){
+      const el=document.getElementById('map');
+      if(typeof L==='undefined' || !el) return;
+      const map=L.map(el,{scrollWheelZoom:true}).setView([52.15,5.3],8);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+        maxZoom:19,
+        attribution:'&copy; OpenStreetMap-bijdragers'
+      }).addTo(map);
+      projects.forEach(p=>{
+        if(p.lat&&p.lng){
+          const m=L.marker([p.lat,p.lng]).addTo(map);
+          let popup=`<b>${p.title}</b><br><a href="${p.url}" target="_blank" rel="noopener noreferrer">Open project</a>`;
+          if(p.password){popup+=`<br><small>Wachtwoord: ${p.password}</small>`}
+          m.bindPopup(popup);
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded',()=>{
+      renderProjects();
+      initMap();
+    });
+  </script>
+</body>
+</html>
