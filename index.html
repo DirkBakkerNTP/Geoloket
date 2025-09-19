@@ -27,55 +27,130 @@
       --muted:#475569;
       --bg:#ffffff;
       --card-border:#e5e7eb;
+      --shadow:0 4px 12px rgba(0,0,0,.08);
     }
-    * { box-sizing: border-box }
-    body{margin:0;font-family:'Roboto',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
-
-    .skip-link{
-      position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;
+    * { box-sizing: border-box; margin:0; padding:0 }
+    body{
+      margin:0;
+      font-family:'Roboto',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.6;
     }
-    .skip-link:focus{
-      position:absolute;left:1rem;top:1rem;width:auto;height:auto;padding:.5rem 1rem;background:#000;color:#fff;border-radius:.5rem;z-index:100;
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:#fff;
+      border-bottom:1px solid var(--card-border);
+      box-shadow:0 2px 6px rgba(0,0,0,.04);
+    }
+    .topbar .brand{
+      max-width:1200px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      padding:1.5rem 1rem;
+      text-align:center;
+    }
+    .brand-title .name{
+      font-weight:700;
+      font-size:2.2rem;
+      color:var(--ntp-cyan);
+      letter-spacing:.03em;
+    }
+    .brand-title .tag{
+      font-size:1.1rem;
+      color:var(--muted);
+      margin-top:.25rem;
     }
 
-    .topbar{position:sticky;top:0;z-index:60;background:#fff;border-bottom:1px solid var(--card-border)}
-    .topbar .brand{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:1.25rem 1rem;text-align:center}
-    .brand-title .name{font-weight:700;font-size:2rem;letter-spacing:.02em}
-    .brand-title .tag{font-size:1.1rem;color:var(--muted)}
-
-    .subnav{border-top:1px solid var(--card-border);background:#fff}
-    .subnav .row{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:2rem;padding:.5rem 1rem;flex-wrap:wrap}
+    .subnav{
+      border-top:1px solid var(--card-border);
+      background:#f9fafb;
+    }
+    .subnav .row{
+      max-width:1200px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:2rem;
+      padding:.75rem 1rem;
+      flex-wrap:wrap;
+    }
     .subnav a{
-      font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text);text-decoration:none;
-      font-size:1.05rem;padding:.75rem .25rem;border-bottom:3px solid transparent;cursor:pointer;outline-offset:4px;
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      color:var(--text);
+      text-decoration:none;
+      font-size:1rem;
+      padding:.5rem .25rem;
+      border-bottom:3px solid transparent;
+      transition:all .2s ease;
     }
-    .subnav a:hover{border-color:var(--ntp-cyan);color:var(--ntp-cyan)}
-    .subnav a:focus-visible{border-color:var(--ntp-cyan)}
+    .subnav a:hover,
+    .subnav a:focus-visible{
+      border-color:var(--ntp-cyan);
+      color:var(--ntp-cyan);
+    }
 
     html{scroll-behavior:smooth}
-    .section{scroll-margin-top:140px}
+    .section{scroll-margin-top:140px; max-width:1000px; margin:0 auto; padding:4rem 1rem}
+    .section h2{font-size:1.75rem; color:var(--ntp-cyan); margin-bottom:1rem}
 
-    #projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-top:1.5rem}
-    .card{background:#fff;border:1px solid var(--card-border);border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.05);overflow:hidden;transition:transform .2s}
-    .card:hover{transform:translateY(-2px)}
-    .card h3{margin:0;font-size:1.1rem;font-weight:700;padding:.75rem 1rem;border-bottom:1px solid var(--card-border)}
+    #projects{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:1.5rem;
+      margin-top:2rem;
+    }
+    .card{
+      background:#fff;
+      border:1px solid var(--card-border);
+      border-radius:14px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      transition:transform .2s, box-shadow .2s;
+    }
+    .card:hover{transform:translateY(-4px); box-shadow:0 6px 16px rgba(0,0,0,.1)}
+    .card h3{
+      margin:0;
+      font-size:1.2rem;
+      font-weight:700;
+      padding:1rem;
+      background:#f9fafb;
+      border-bottom:1px solid var(--card-border);
+    }
     .card .content{padding:1rem}
     .btn{
-      display:inline-block;margin-top:.5rem;padding:.55rem .9rem;border-radius:8px;font-size:.95rem;font-weight:600;
-      text-decoration:none;background:var(--ntp-cyan);color:#fff;outline-offset:4px;
+      display:inline-block;
+      margin-top:.75rem;
+      padding:.6rem 1rem;
+      border-radius:8px;
+      font-size:.95rem;
+      font-weight:600;
+      text-decoration:none;
+      background:var(--ntp-cyan);
+      color:#fff;
+      transition:background .2s ease;
     }
     .btn:hover{background:#0095d6}
     .btn:focus-visible{box-shadow:0 0 0 3px rgba(0,174,239,.35)}
-    .qr{margin-top:.75rem}
-    .qr canvas{display:block}
+    .qr{margin-top:1rem}
+    .qr canvas{display:block; margin:auto}
 
-    #map{width:100%;height:420px;margin-top:2rem;border:1px solid var(--card-border);border-radius:12px}
-    @media (max-width:900px){
-      .subnav .row{flex-direction:column;gap:.25rem}
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      *{animation: none !important; transition: none !important}
+    #map{
+      width:100%;
+      height:440px;
+      margin-top:2rem;
+      border:1px solid var(--card-border);
+      border-radius:14px;
+      box-shadow:var(--shadow);
     }
 
     /* Contactpagina styling */
@@ -92,26 +167,27 @@
       align-items: flex-start;
       gap: 1rem;
       margin-bottom: 2rem;
-      padding: 1rem;
-      border-radius: 12px;
+      padding: 1.25rem;
+      border-radius: 14px;
       background: #fff;
-      box-shadow: 0 2px 6px rgba(0,0,0,.06);
+      box-shadow: var(--shadow);
       transition: transform .2s, box-shadow .2s;
     }
     .contact-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0,0,0,.08);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0,0,0,.1);
     }
     .contact-card h3 {
       margin: 0;
       color: var(--ntp-cyan);
     }
     .contact-card p {
-      margin: .25rem 0;
+      margin: .35rem 0;
     }
     .contact-card a {
       color: var(--ntp-cyan);
       text-decoration: none;
+      font-weight:500;
     }
     .contact-card a:hover {
       text-decoration: underline;
@@ -125,7 +201,7 @@
     }
     .locations-grid img {
       width: 100%;
-      border-radius: 12px;
+      border-radius: 14px;
       object-fit: cover;
       border: 2px solid #f1f5f9;
       transition: transform .2s, box-shadow .2s;
@@ -139,7 +215,21 @@
         grid-template-columns: 1fr;
       }
     }
-  </style>
+
+
+.parallax {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 420px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+</style>
 </head>
 <body>
   <a href="#main" class="skip-link">Direct naar hoofdinhoud</a>
@@ -177,6 +267,7 @@ Betere samenwerking, omdat iedereen met dezelfde kaart werkt.
 Kortom:
 ArcGIS helpt om data niet alleen te bewaren, maar vooral om er iets mee te doen — zodat beslissingen sneller, beter en met meer zekerheid genomen kunnen worden.</p>
     </section>
+    <section class="parallax" style="background-image:url('voorbeeld1.jpg')"></section>
     <section id="fme" class="section" style="padding:4rem 1rem;text-align:center;">
       <h2>FME</h2>
       <p>Data zijn er in alle soorten en maten: Excel, AutoCAD, shapefiles, databases, noem maar op. Vaak praten die bestanden niet vanzelf met elkaar — en daar komt FME om de hoek kijken. 
@@ -187,11 +278,13 @@ Data slim omzetten en koppelen zodat projecten sneller opgestart kunnen worden.
 Altijd actuele en consistente informatie beschikbaar voor iedereen in het project.
 Kortom: FME maakt van een wirwar aan data een overzichtelijk geheel. Het zorgt dat data beweegt waar jij dat wilt, zodat jij je kunt richten op de inhoud van het project in plaats van op bestandsformaten.</p>
     </section>
+    <section class="parallax" style="background-image:url('voorbeeld2.jpg')"></section>
     <section id="scan" class="section" style="padding:4rem 1rem;">
       <h2 style="text-align:center;">SCAN – Xgrid Projecten</h2>
       <div id="projects" aria-live="polite"></div>
       <div id="map" role="region" aria-label="Projectkaart"></div>
     </section>
+    <section class="parallax" style="background-image:url('voorbeeld3.jpg')"></section>
     <section id="vgis" class="section" style="padding:4rem 1rem;text-align:center;">
       <h2>VGIS</h2>
       <p>VvGIS is een platform dat je ruimtelijke data (GIS, CAD, 3D-scans, KLIC-data.) omzet in visuele, augmented reality–ondersteunde inzichten, zodat wat normaliter op een plat of abstract kaartje staat, bijna letterlijk zichtbaar wordt op de plek waar je staat.
@@ -202,10 +295,12 @@ Waarom vGIS interessant voor NTP
 •	Hogere kwaliteit van documentatie: As-built tekeningen zijn nauwkeuriger, vollediger, sneller beschikbaar. Nuttig voor latere fasen (onderhoud, inspectie).
 </p>
     </section>
+    <section class="parallax" style="background-image:url('voorbeeld4.jpg')"></section>
     <section id="ai" class="section" style="padding:4rem 1rem;text-align:center;">
       <h2>AI</h2>
       <p>Voorbeeldpagina AI – inhoud volgt.</p>
     </section>
+    <section class="parallax" style="background-image:url('voorbeeld5.jpg')"></section>
     <section id="nieuws" class="section" style="padding:4rem 1rem;text-align:center;">
       <h2>Nieuws</h2>
       <p>Voorbeeldpagina Nieuws – inhoud volgt.</p>
