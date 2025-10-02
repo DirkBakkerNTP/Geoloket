@@ -1,26 +1,23 @@
 <!DOCTYPE html>
+
 <html lang="nl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="NTP GeoDataLoket – overzicht van GIS-, FME-, scan- en AI-projecten met kaart en QR-codes." />
-  <meta name="theme-color" content="#00AEEF" />
-  <title>NTP GeoDataLoket</title>
-  <link rel="icon" href="Logo_NTP.png" />
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-
-  <!-- Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-  <!-- QR generator -->
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="NTP GeoDataLoket – overzicht van GIS-, FME-, scan- en AI-projecten met kaart en QR-codes." name="description"/>
+<meta content="#00AEEF" name="theme-color"/>
+<title>NTP GeoDataLoket</title>
+<link href="Logo_NTP.png" rel="icon"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Leaflet -->
+<link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet">
+<script defer="" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- QR generator -->
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<style>
     :root{
       --ntp-cyan:#00AEEF;
       --text:#0f172a;
@@ -66,6 +63,17 @@
       font-size:1.1rem;
       color:var(--muted);
       margin-top:.25rem;
+    }
+
+    /* Hamburger menu knop */
+    .hamburger {
+      display: none;
+      background:none;
+      border:none;
+      font-size:2rem;
+      cursor:pointer;
+      color:var(--ntp-cyan);
+      padding:1rem;
     }
 
     .subnav{
@@ -229,36 +237,90 @@
   justify-content: center;
 }
 
+@media (max-width: 768px) {
+  .hamburger { display:block; margin-left:auto; }
+  .subnav {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+  }
+  .subnav.open {
+    max-height: 500px;
+    opacity: 1;
+  }
+  .subnav .row { flex-direction: column; gap: 0; }
+  .subnav a { display:block; padding:1rem; border-bottom:1px solid var(--card-border); text-align:center; }
+}
+@media (max-width: 600px) {
+  .locations-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .brand-title .name { font-size:1.6rem; }
+  .brand-title .tag { font-size:0.9rem; }
+  .section h2 { font-size:1.4rem; }
+  body { font-size:0.95rem; }
+  .parallax { background-attachment:scroll; min-height:240px; }
+}
+
 </style>
+<!-- FullCalendar Scheduler -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.8/index.global.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.8/index.global.min.js"></script>
+<style>
+    .mv-btn {
+      background:#00AEEF;
+      color:#fff;
+      padding:.6rem 1rem;
+      border-radius:8px;
+      font-weight:600;
+      cursor:pointer;
+      border:none;
+    }
+    .fc-today { background:#e0f2fe !important; }
+  </style>
+<style>
+    #agendaModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:200; }
+    #agendaModal .modal-content { background:#fff; padding:2rem; border-radius:12px; max-width:520px; width:90%; text-align:left; }
+  </style>
+</link>
+<style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;padding:2rem}
+    .mv-btn {background:#00AEEF;color:#fff;padding:.6rem 1rem;border-radius:8px;font-weight:600;cursor:pointer;border:none;}
+    .fc-today { background:#e0f2fe !important; }
+    #agendaModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:200; }
+    #agendaModal .modal-content { background:#fff; padding:2rem; border-radius:12px; max-width:520px; width:90%; text-align:left; }
+  </style>
 </head>
 <body>
-
-
-  <header class="topbar" role="banner">
-    <div class="brand" aria-label="NTP GeoDataLoket">
-      <img src="Logo_NTP.png" alt="NTP logo" style="height:60px;margin-bottom:.5rem;" loading="lazy" width="160" height="60"/>
-      <div class="brand-title" aria-live="polite">
-        <span class="name">GEODATALOKET</span>
-        <span class="tag">Nauwkeurig · Toepasbaar · Praktisch</span>
-      </div>
-    </div>
-    <nav class="subnav" aria-label="Hoofdnavigatie">
-      <div class="row">
-        <a href="https://ntpbv.maps.arcgis.com/home/index.html" target="_blank" rel="noopener noreferrer">GIS</a>
-        <a href="#fme">FME</a>
-        <a href="#scan">SCAN</a>
-        <a href="#vgis">VGIS</a>
-        <a href="#ai">AI</a>
-        <a href="#nieuws">Nieuws</a>
-        <a href="#contact">Contact</a>
-      </div>
-    </nav>
-  </header>
-
-  <main id="main">
-    <section id="GIS" class="section" style="padding:4rem 1rem;text-align:center;">
-      <h2>GIS</h2>
-      <p>Stel je voor dat je niet alleen met woorden of cijfers kunt vertellen waar iets is, maar dat je het meteen op een kaart tot leven ziet komen. 
+<header class="topbar" role="banner">
+<div aria-label="NTP GeoDataLoket" class="brand">
+<img alt="NTP logo" height="60" loading="lazy" src="Logo_NTP.png" style="height:60px;margin-bottom:.5rem;" width="160"/>
+<div aria-live="polite" class="brand-title">
+<span class="name">GEODATALOKET</span>
+<span class="tag">Nauwkeurig · Toepasbaar · Praktisch</span>
+</div>
+</div>
+<button class="hamburger" aria-label="Menu openen" aria-expanded="false">☰</button>
+<nav aria-label="Hoofdnavigatie" class="subnav">
+<div class="row">
+<a href="https://ntpbv.maps.arcgis.com/home/index.html" rel="noopener noreferrer" target="_blank">GIS</a>
+<a href="#fme">FME</a>
+<a href="#scan">SCAN</a>
+<a href="#vgis">VGIS</a>
+<a href="#ai">AI</a>
+<a href="#maatvoering">Maatvoering</a>
+<a href="#nieuws">Nieuws</a>
+<a href="#contact">Contact</a>
+</div>
+</nav>
+</header>
+<main id="main">
+<section class="section" id="GIS" style="padding:4rem 1rem;text-align:center;">
+<h2>GIS</h2>
+<p>Stel je voor dat je niet alleen met woorden of cijfers kunt vertellen waar iets is, maar dat je het meteen op een kaart tot leven ziet komen. 
 Dat is precies wat (Arc)GIS doet: het koppelt informatie aan locaties. Of het nu gaat om kabels onder de grond, een nieuwbouwproject of het plannen van onderhoud, met GIS heb je alle data overzichtelijk op één digitale kaart.
 Voor een organisatie als NTP betekent dit:
 Slimmer plannen van projecten (bijvoorbeeld wegwerkzaamheden of infra-onderhoud).
@@ -266,147 +328,163 @@ Direct inzicht in ondergrondse en bovengrondse data: minder verrassingen, meer e
 Betere samenwerking, omdat iedereen met dezelfde kaart werkt.
 Kortom:
 ArcGIS helpt om data niet alleen te bewaren, maar vooral om er iets mee te doen — zodat beslissingen sneller, beter en met meer zekerheid genomen kunnen worden.</p>
-    </section>
-    <section class="parallax" style="background-image:url('voorbeeld1.jpg')"></section>
-    <section id="fme" class="section" style="padding:4rem 1rem;text-align:center;">
-      <h2>FME</h2>
-      <p>Data zijn er in alle soorten en maten: Excel, AutoCAD, shapefiles, databases, noem maar op. Vaak praten die bestanden niet vanzelf met elkaar — en daar komt FME om de hoek kijken. 
+</section>
+<section class="parallax" style="background-image:url('voorbeeld1.jpg')"></section>
+<section class="section" id="fme" style="padding:4rem 1rem;text-align:center;">
+<h2>FME</h2>
+<p>Data zijn er in alle soorten en maten: Excel, AutoCAD, shapefiles, databases, noem maar op. Vaak praten die bestanden niet vanzelf met elkaar — en daar komt FME om de hoek kijken. 
         FME is de tolk en klusjesman in één: hij vertaalt, combineert en bewerkt data zodat alles netjes in hetzelfde verhaal past.
 Voor NTP betekent dat:
 Minder tijd kwijt aan handmatig knippen en plakken van bestanden.
 Data slim omzetten en koppelen zodat projecten sneller opgestart kunnen worden.
 Altijd actuele en consistente informatie beschikbaar voor iedereen in het project.
 Kortom: FME maakt van een wirwar aan data een overzichtelijk geheel. Het zorgt dat data beweegt waar jij dat wilt, zodat jij je kunt richten op de inhoud van het project in plaats van op bestandsformaten.</p>
-    </section>
-    <section class="parallax" style="background-image:url('voorbeeld2.jpg')"></section>
-    <section id="scan" class="section" style="padding:4rem 1rem;">
-      <h2 style="text-align:center;">SCAN – Xgrid Projecten</h2>
-      <div id="projects" aria-live="polite"></div>
-      <div id="map" role="region" aria-label="Projectkaart"></div>
-    </section>
-    <section class="parallax" style="background-image:url('voorbeeld3.jpg')"></section>
-    <section id="vgis" class="section" style="padding:4rem 1rem;text-align:center;">
-      <h2>VGIS</h2>
-      <p>VGIS(Vsite) is een platform dat je ruimtelijke data (GIS, CAD, 3D-scans, KLIC-data.) omzet in visuele, augmented reality–ondersteunde inzichten, zodat wat normaliter op een plat of abstract kaartje staat, bijna letterlijk zichtbaar wordt op de plek waar je staat.
+</section>
+<section class="parallax" style="background-image:url('voorbeeld2.jpg')"></section>
+<section class="section" id="scan" style="padding:4rem 1rem;">
+<h2 style="text-align:center;">SCAN – Xgrid Projecten</h2>
+<div aria-live="polite" id="projects"></div>
+<div aria-label="Projectkaart" id="map" role="region"></div>
+</section>
+<section class="parallax" style="background-image:url('voorbeeld3.jpg')"></section>
+<section class="section" id="vgis" style="padding:4rem 1rem;text-align:center;">
+<h2>VGIS</h2>
+<p>VGIS(Vsite) is een platform dat je ruimtelijke data (GIS, CAD, 3D-scans, KLIC-data.) omzet in visuele, augmented reality–ondersteunde inzichten, zodat wat normaliter op een plat of abstract kaartje staat, bijna letterlijk zichtbaar wordt op de plek waar je staat.
 Waarom vGIS interessant voor NTP
 •	Veiligheid en risicovermindering: Minder kans op ongelukken of schade aan bestaande infrastructuur (leidingen, kabels) als je vooraf precies kunt zien waar ze liggen.
 •	Efficiëntie bij projecten: Je bespaart tijd in planning, uitvoering en documentatie, omdat minder gecontroleerd hoeft te worden, en fouten eerder worden opgespoord.
 •	Betere samenwerking: Iedereen (kantoor, uitvoerder, onderaannemers) werkt met dezelfde actuele informatie en visualisaties, minder verwarring.
 •	Hogere kwaliteit van documentatie: As-built tekeningen zijn nauwkeuriger, vollediger, sneller beschikbaar. Nuttig voor latere fasen (onderhoud, inspectie).
 </p>
-    </section>
-    <section class="parallax" style="background-image:url('voorbeeld4.jpg')"></section>
-    
-<section id="ai" class="section" style="padding:4rem 1rem;text-align:center;">
-  <h2>AI</h2>
-  <p>Ook binnen NTP willen we de kracht van <strong>Artificial Intelligence (AI)</strong> benutten om onze processen slimmer en efficiënter te maken. 
+</section>
+<section class="parallax" style="background-image:url('voorbeeld4.jpg')"></section>
+<section class="section" id="ai" style="padding:4rem 1rem;text-align:center;">
+<h2>AI</h2>
+<p>Ook binnen NTP willen we de kracht van <strong>Artificial Intelligence (AI)</strong> benutten om onze processen slimmer en efficiënter te maken. 
   Denk aan automatische patroonherkenning in geo-data, voorspellingen voor planning en onderhoud, of het sneller verwerken van grote hoeveelheden projectinformatie. 
   AI helpt ons om niet alleen reactief maar ook proactief te werken: problemen eerder signaleren, kansen sneller benutten en onze projecten aantoonbaar duurzamer en veiliger uit te voeren.</p>
-
-  <p>De komende periode verkennen we verschillende toepassingen en bouwen we pilots, zodat AI stap voor stap een vast onderdeel wordt van onze werkprocessen.</p>
+<p>De komende periode verkennen we verschillende toepassingen en bouwen we pilots, zodat AI stap voor stap een vast onderdeel wordt van onze werkprocessen.</p>
 </section>
-
-    <section class="parallax" style="background-image:url('voorbeeld5.jpg')"></section>
-    
-<section id="nieuws" class="section" style="padding:4rem 1rem;">
-  <h2>Nieuws</h2>
-  <p><strong>Hoevelaken, 3 september 2025</strong> — NTP introduceert <strong>NTP GeoDataloket</strong>, 
+<section class="parallax" style="background-image:url('voorbeeld5.jpg')"></section>
+<section class="section" id="maatvoering"><h2>Maatvoering</h2><p>Beschikbaarheid per landmeter (komende 3 maanden). Groen = vrij, Oranje = half, Rood = vol.</p><button class="mv-btn" onclick="MaatvoeringCalendar.openAgenda()">Open Agenda</button><div id="calendar"></div><div id="statusMsg" style="margin:10px; font-weight:bold;"></div><div id="agendaModal">
+<div class="modal-content">
+<h3 style="margin-top:0;color:#00AEEF;">Reserveer een landmeter</h3>
+<form id="agendaForm">
+<label for="datum">Datum:</label><br/>
+<input id="datum" name="datum" required="" type="date"/><br/>
+<label for="landmeter">Landmeter:</label><br/>
+<select id="landmeter" name="landmeter" required="">
+<option value="">-- kies --</option>
+<option value="lm1">Landmeter 1</option>
+<option value="lm2">Landmeter 2</option>
+<option value="lm3">Landmeter 3</option>
+</select><br/>
+<label for="tijd">Tijd:</label><br/>
+<select id="tijd" name="tijd" required="">
+<option value="">-- kies --</option>
+<option value="morning">07:00 - 11:30</option>
+<option value="afternoon">11:30 - 16:00</option>
+<option value="fullday">Hele dag</option>
+</select><br/>
+<label for="werkzaamheden">Werkzaamheden:</label><br/>
+<input id="werkzaamheden" name="werkzaamheden" required="" type="text"/><br/>
+<label for="project">Project:</label><br/>
+<input id="project" name="project" required="" type="text"/><br/>
+<label for="email">E-mail:</label><br/>
+<input id="email" name="email" required="" type="email"/><br/><br/>
+<button class="mv-btn" type="submit">Reserveer</button>
+<button class="mv-btn" onclick="MaatvoeringCalendar.closeAgenda()" style="background:#ccc;color:#000;" type="button">Sluiten</button>
+</form>
+</div>
+</div></section>
+<section class="section" id="nieuws" style="padding:4rem 1rem;">
+<h2>Nieuws</h2>
+<p><strong>Hoevelaken, 3 september 2025</strong> — NTP introduceert <strong>NTP GeoDataloket</strong>, 
   een nieuwe afdeling die als spil fungeert voor alles wat met geo-data, kaarten en ruimtelijke analyses te maken heeft. 
   Met NTP GeoDataLoket zet NTP een volgende stap in digitale vernieuwing en ondersteunt het teams bij het sneller, slimmer en veiliger uitvoeren van projecten.</p>
-
-  <h3>Waarom GeoDataLoket?</h3>
-  <p>Steeds meer werkprocessen bij NTP leunen op geografische informatie: van ontwerp en planning tot uitvoering en beheer. 
+<h3>Waarom GeoDataLoket?</h3>
+<p>Steeds meer werkprocessen bij NTP leunen op geografische informatie: van ontwerp en planning tot uitvoering en beheer. 
   GeoDataLoket combineert expertise in geo-data met praktische tools, zodat collega’s één aanspreekpunt hebben voor betrouwbare kaarten, analyses en datagedreven besluitvorming.</p>
-
-  <h3>Wat doet NTP GeoDataLoket concreet?</h3>
-  <ul style="text-align:left;max-width:800px;margin:1rem auto;">
-    <li><strong>Datavoorziening & beheer</strong>: opzetten en beheren van centrale geo-datasets, inclusief kwaliteitsborging en versiebeheer.</li>
-    <li><strong>Analyses & voorbereiding visualisaties</strong>: ruimtelijke analyses, dashboards en interactieve kaartviews voor tender, voorbereiding en uitvoering.</li>
-    <li><strong>Innovatie R&amp;D</strong>: verkennen en pilotten van nieuwe technieken (o.a. LiDAR, reality capture, AI-interpretatie, sensordata).</li>
-    <li><strong>Procesintegratie</strong>: koppelingen met bestaande systemen (BIM, planning, assetmanagement) en standaardisatie van werkafspraken.</li>
-    <li><strong>Support & training</strong>: helpdesk, korte instructies en verdiepingstrainingen voor projectteams.</li>
-  </ul>
-
-  <blockquote style="font-style:italic;margin:2rem auto;max-width:800px;">
+<h3>Wat doet NTP GeoDataLoket concreet?</h3>
+<ul style="text-align:left;max-width:800px;margin:1rem auto;">
+<li><strong>Datavoorziening &amp; beheer</strong>: opzetten en beheren van centrale geo-datasets, inclusief kwaliteitsborging en versiebeheer.</li>
+<li><strong>Analyses &amp; voorbereiding visualisaties</strong>: ruimtelijke analyses, dashboards en interactieve kaartviews voor tender, voorbereiding en uitvoering.</li>
+<li><strong>Innovatie R&amp;D</strong>: verkennen en pilotten van nieuwe technieken (o.a. LiDAR, reality capture, AI-interpretatie, sensordata).</li>
+<li><strong>Procesintegratie</strong>: koppelingen met bestaande systemen (BIM, planning, assetmanagement) en standaardisatie van werkafspraken.</li>
+<li><strong>Support &amp; training</strong>: helpdesk, korte instructies en verdiepingstrainingen voor projectteams.</li>
+</ul>
+<blockquote style="font-style:italic;margin:2rem auto;max-width:800px;">
     “Met GeoDataLoket brengen we geo-kennis en innovatieve tooling dicht bij de werkvloer. 
     Dat levert tijdwinst op, vermindert faalkosten en maakt onze projecten aantoonbaar duurzamer,” 
     aldus <strong>[Bjorn Wunderink]</strong>.
   </blockquote>
-
-  <h3>Voor wie?</h3>
-  <p>Alle NTP-collega’s die werken met locatiegebonden informatie: tender- en projectleiders, 
+<h3>Voor wie?</h3>
+<p>Alle NTP-collega’s die werken met locatiegebonden informatie: tender- en projectleiders, 
   uitvoerders, werkvoorbereiders, ontwerpers en assetmanagers.</p>
 </section>
-
-
-    <!-- Gestylede contactsectie -->
-    <section id="contact" class="section" style="padding:4rem 1rem;">
-      <h2 style="text-align:center;margin-bottom:2rem;">Contact</h2>
-      <div class="contact-grid">
-        
-        <!-- Teamleden -->
-        <div>
-          <article class="contact-card">
-            <img src="bjorn.png" alt="Björn Wunderink" style="width:120px;height:120px;object-fit:cover;border-radius:12px;">
-            <div>
-              <h3>Björn Wunderink</h3>
-              <p><strong>Specialist Geo Data</strong></p>
-              <p>
-                <a href="mailto:b.wunderink@ntp.nl">b.wunderink@ntp.nl</a><br>
-                <a href="tel:+31610740548">+31 6 10740548</a>
-              </p>
-            </div>
-          </article>
-
-          <article class="contact-card">
-            <img src="Thijs.png" alt="Thijs van der Pal" style="width:120px;height:120px;object-fit:cover;border-radius:12px;">
-            <div>
-              <h3>Thijs van der Pal</h3>
-              <p><strong>Specialist GIS Geodata</strong></p>
-              <p>
-                <a href="mailto:t.vanderpal@ntp.nl">t.vanderpal@ntp.nl</a><br>
-                <a href="tel:+31657404089">+31 6 57404089</a>
-              </p>
-            </div>
-          </article>
-
-          <article class="contact-card">
-            <img src="Dirk.png" alt="Dirk Bakker" style="width:120px;height:120px;object-fit:cover;border-radius:12px;">
-            <div>
-              <h3>Dirk Bakker</h3>
-              <p><strong>Specialist FME Geodata</strong></p>
-              <p>
-                <a href="mailto:d.bakker@ntp.nl">d.bakker@ntp.nl</a><br>
-                <a href="tel:+31651033684">+31 6 51033684</a>
-              </p>
-            </div>
-          </article>
-        </div>
-
-        <!-- Locaties -->
-        <div>
-          <h3 style="margin-top:0;">Onze locaties</h3>
-          <div class="locations-grid">
-            <img src="loc1.png" alt="NTP Locatie 1">
-            <img src="loc2.png" alt="NTP Locatie 2">
-            <img src="loc3.png" alt="NTP Locatie 3">
-            <img src="loc4.png" alt="NTP Locatie 4">
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <script>
+<!-- Gestylede contactsectie -->
+<section class="section" id="contact" style="padding:4rem 1rem;">
+<h2 style="text-align:center;margin-bottom:2rem;">Contact</h2>
+<div class="contact-grid">
+<!-- Teamleden -->
+<div>
+<article class="contact-card">
+<img alt="Björn Wunderink" src="bjorn.png" style="width:120px;height:120px;object-fit:cover;border-radius:12px;"/>
+<div>
+<h3>Björn Wunderink</h3>
+<p><strong>Specialist Geo Data</strong></p>
+<p>
+<a href="mailto:b.wunderink@ntp.nl">b.wunderink@ntp.nl</a><br/>
+<a href="tel:+31610740548">+31 6 10740548</a>
+</p>
+</div>
+</article>
+<article class="contact-card">
+<img alt="Thijs van der Pal" src="Thijs.png" style="width:120px;height:120px;object-fit:cover;border-radius:12px;"/>
+<div>
+<h3>Thijs van der Pal</h3>
+<p><strong>Specialist GIS Geodata</strong></p>
+<p>
+<a href="mailto:t.vanderpal@ntp.nl">t.vanderpal@ntp.nl</a><br/>
+<a href="tel:+31657404089">+31 6 57404089</a>
+</p>
+</div>
+</article>
+<article class="contact-card">
+<img alt="Dirk Bakker" src="Dirk.png" style="width:120px;height:120px;object-fit:cover;border-radius:12px;"/>
+<div>
+<h3>Dirk Bakker</h3>
+<p><strong>Specialist FME Geodata</strong></p>
+<p>
+<a href="mailto:d.bakker@ntp.nl">d.bakker@ntp.nl</a><br/>
+<a href="tel:+31651033684">+31 6 51033684</a>
+</p>
+</div>
+</article>
+</div>
+<!-- Locaties -->
+<div>
+<h3 style="margin-top:0;">Onze locaties</h3>
+<div class="locations-grid">
+<img alt="NTP Locatie 1" src="loc1.png"/>
+<img alt="NTP Locatie 2" src="loc2.png"/>
+<img alt="NTP Locatie 3" src="loc3.png"/>
+<img alt="NTP Locatie 4" src="loc4.png"/>
+</div>
+</div>
+</div>
+</section>
+</main>
+<script>
     const projects=[
-      {id:"apeldoorn-wilhelmina",title:"Apeldoorn – Wilhelmina Druckerstraat",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-wilhelmina_druckerstraat",lat:52.211653,lng:5.9548165},
+      {id:"apeldoorn-wilhelmina",title:"Apeldoorn – Wilhelmina Druckerstraat",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-wilhelmina_druckerstraat",lat:52.211653,lng:5.9548165,password:"NTP2025"},
       {id:"doetinchem-1",title:"Doetinchem – 1",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-doetinchem_1",lat:51.9595997,lng:6.2990643},
       {id:"huizen-1",title:"Huizen – Stadenlande 1",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-huizen_stadenlande_1",lat:52.2939495,lng:5.2532121},
       {id:"huizen-2",title:"Huizen – Stadenlande 2",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-huizen_stadenlande_2",lat:52.2883596,lng:5.2535263},
       {id:"nijkerk-camperbuurt",title:"Nijkerk – Camperbuurt",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-camperbuurt",lat:52.2302263,lng:5.4890607},
       {id:"nijkerk-depot",title:"Nijkerk – Depot",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-depot_nijkerk",lat:52.2236767,lng:5.4610231},
       {id:"westervoort",title:"Westervoort",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-westervoort",lat:51.9626715,lng:5.9669338},
-      {id:"beuningen-beuningerstraat",title:"Beuningen – Beuningerstraat",url:"https://lcc-viewer.xgrids.com/pub/f9942c07-f0e3-4a60-9849-905f94b5d204",lat:52.3593892,lng:6.9974174}
+      {id:"beuningen-beuningerstraat",title:"Beuningen – Beuningerstraat",url:"https://lcc-viewer.xgrids.com/pub/f9942c07-f0e3-4a60-9849-905f94b5d204",lat:52.3593892,lng:6.9974174,password:"NTP2025"}
     ];
 
     function createProjectCard(p){
@@ -464,5 +542,226 @@ Waarom vGIS interessant voor NTP
       initMap();
     });
   </script>
+
+<div id="agendaModal">
+<div class="modal-content">
+<h3 style="margin-top:0;color:#00AEEF;">Reserveer een landmeter</h3>
+<form id="agendaForm">
+<label for="datum">Datum:</label><br/>
+<input id="datum" required="" style="margin:.5rem 0;width:100%;padding:.5rem;" type="date"/><br/>
+<label for="landmeter">Landmeter:</label><br/>
+<select id="landmeter" required="" style="margin:.5rem 0;width:100%;padding:.5rem;">
+<option value="">-- kies --</option>
+<option value="lm1">Landmeter 1</option>
+<option value="lm2">Landmeter 2</option>
+<option value="lm3">Landmeter 3</option>
+</select><br/>
+<label for="tijd">Tijd:</label><br/>
+<select id="tijd" required="" style="margin:.5rem 0;width:100%;padding:.5rem;">
+<option value="">-- kies --</option>
+<option value="morning">07:00 - 11:30</option>
+<option value="afternoon">11:30 - 16:00</option>
+<option value="fullday">Hele dag</option>
+</select><br/>
+<label for="werkzaamheden">Werkzaamheden:</label><br/>
+<input id="werkzaamheden" required="" style="margin:.5rem 0;width:100%;padding:.5rem;" type="text"/><br/>
+<label for="project">Project:</label><br/>
+<input id="project" required="" style="margin:.5rem 0;width:100%;padding:.5rem;" type="text"/><br/><br/>
+<button class="mv-btn" type="submit">Reserveer</button>
+<button class="mv-btn" onclick="MaatvoeringCalendar.closeAgenda()" style="background:#ccc;color:#000;" type="button">Sluiten</button>
+</form>
+</div>
+</div>
+<script>
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxgpINoQNego19_BUVerkt65oTiLfrQ91gCrXe9vc3MSBsRRrAx0IZlONksxEIqEi-FNQ/exec";
+
+window.MaatvoeringCalendar = (function(){
+
+    let reservations = { lm1:{}, lm2:{}, lm3:{} };
+    let calendar;
+
+    function buildBaseGreenEvents(){
+      const events = [];
+      const today = new Date();
+      const end = new Date(today);
+      end.setMonth(end.getMonth()+3);
+
+      for(let d=new Date(today); d<=end; d.setDate(d.getDate()+1)){
+        const key = d.toISOString().split("T")[0];
+        ["lm1","lm2","lm3"].forEach(lm => {
+          events.push({
+            start: key+"T07:00:00",
+            end: key+"T16:00:00",
+            resourceId: lm,
+            color: "lightgreen",
+            display: "background"
+          });
+        });
+      }
+      return events;
+    }
+
+    function buildReservationEvents(){
+      const events = [];
+      for(const lm in reservations){
+        for(const date in reservations[lm]){
+          const r = reservations[lm][date];
+          if(r.morning && r.afternoon){
+            events.push({ start: date+"T07:00:00", end: date+"T16:00:00", resourceId: lm, color: "red", title: "Reservering", landmeter: lm, project: r.project, werkzaamheden: r.werkzaamheden, tijd: "Hele dag" });
+          } else if(r.morning){
+            events.push({ start: date+"T07:00:00", end: date+"T11:30:00", resourceId: lm, color: "orange", title: "Reservering", landmeter: lm, project: r.project, werkzaamheden: r.werkzaamheden, tijd: "07:00-11:30" });
+          } else if(r.afternoon){
+            events.push({ start: date+"T11:30:00", end: date+"T16:00:00", resourceId: lm, color: "orange", title: "Reservering", landmeter: lm, project: r.project, werkzaamheden: r.werkzaamheden, tijd: "11:30-16:00" });
+          }
+        }
+      }
+      return events;
+    }
+
+    function renderCalendar(){
+      const today = new Date();
+      const end = new Date(today);
+      end.setMonth(end.getMonth()+3);
+
+      const calendarEl = document.getElementById('calendar');
+      if(calendar) calendar.destroy();
+      calendar = new FullCalendar.Calendar(calendarEl, {
+        schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+        initialView: 'resourceTimelineMonth',
+        initialDate: today,
+        locale: 'nl',
+        weekNumbers: true,
+        resourceAreaHeaderContent: 'Landmeters',
+        slotLabelFormat: [{ weekday: 'long', day: 'numeric', month: 'short' }],
+        nowIndicator: true,
+        resources: [
+          { id: 'lm1', title: 'Landmeter 1' },
+          { id: 'lm2', title: 'Landmeter 2' },
+          { id: 'lm3', title: 'Landmeter 3' }
+        ],
+        validRange: {
+          start: today.toISOString().split('T')[0],
+          end: end.toISOString().split('T')[0]
+        },
+        events: [...buildBaseGreenEvents(), ...buildReservationEvents()],
+        eventClick: function(info){
+          const ev = info.event.extendedProps;
+          alert("📌 Reservering\n" +
+            "Landmeter: " + ev.landmeter + "\n" +
+            "Tijd: " + ev.tijd + "\n" +
+            "Project: " + ev.project + "\n" +
+            "Werkzaamheden: " + ev.werkzaamheden
+          );
+        },
+        height: 'auto'
+      });
+      calendar.render();
+    }
+
+    function openAgenda(){ document.getElementById("agendaModal").style.display="flex"; }
+    function closeAgenda(){ document.getElementById("agendaModal").style.display="none"; }
+
+    document.addEventListener("DOMContentLoaded",()=>{
+      loadReservations();
+      renderCalendar();
+
+      document.getElementById("agendaForm").addEventListener("submit", async function(e){
+        e.preventDefault();
+        const datum=document.getElementById("datum").value;
+        const landmeter=document.getElementById("landmeter").value;
+        const tijd=document.getElementById("tijd").value;
+        const werk=document.getElementById("werkzaamheden").value;
+        const project=document.getElementById("project").value;
+        const email=document.getElementById("email").value;
+
+        if(!reservations[landmeter][datum]) reservations[landmeter][datum]={};
+        if(tijd==="morning") reservations[landmeter][datum].morning=true;
+        if(tijd==="afternoon") reservations[landmeter][datum].afternoon=true;
+        if(tijd==="fullday"){ reservations[landmeter][datum].morning=true; reservations[landmeter][datum].afternoon=true; }
+
+        reservations[landmeter][datum].project = project;
+        reservations[landmeter][datum].werkzaamheden = werk;
+        reservations[landmeter][datum].email = email;
+        reservations[landmeter][datum].tijd = tijd;
+
+        alert(`✅ ${landmeter} gereserveerd op ${datum} (${tijd}) voor project "${project}" (${werk}).\nContact: ${email}`);
+
+        renderCalendar();
+
+        try {
+          const resp = await fetch(APPS_SCRIPT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({ datum, landmeter, tijd, werkzaamheden: werk, project, email })
+          });
+          console.log("POST status", resp.status);
+        } catch(err){
+          console.error("POST fout", err);
+        }
+
+        loadReservations();
+        MaatvoeringCalendar.closeAgenda();
+      });
+    });
+
+    async function loadReservations(){
+      try{
+        const r = await fetch(APPS_SCRIPT_URL);
+        const data = await r.json();
+    console.log('📥 JSON ontvangen van Apps Script:', data.map(d => d.datum));
+        reservations = { lm1:{}, lm2:{}, lm3:{} };
+        data.forEach(row => {
+          const lm = row.landmeter;
+          const d = new Date(row.datum);
+      const date = d.getFullYear() + "-" +
+                   String(d.getMonth()+1).padStart(2,"0") + "-" +
+                   String(d.getDate()).padStart(2,"0"); // lokale tijd yyyy-MM-dd
+          if(!lm || !date) return;
+          if(!reservations[lm]) reservations[lm] = {};
+          if(!reservations[lm][date]) reservations[lm][date] = {};
+          const tijdTxt = (row.tijd || "").toLowerCase();
+
+      if (tijdTxt.includes("full") || tijdTxt.includes("hele") || tijdTxt.includes("dag")) {
+        reservations[lm][date].morning = true;
+        reservations[lm][date].afternoon = true;
+      } else if (tijdTxt.includes("morning")) {
+        reservations[lm][date].morning = true;
+      } else if (tijdTxt.includes("afternoon")) {
+        reservations[lm][date].afternoon = true;
+      } else if (tijdTxt.includes("07:00")) {
+        reservations[lm][date].morning = true;
+      } else if (tijdTxt.includes("11:30")) {
+        reservations[lm][date].afternoon = true;
+      } else if((row.tijd||"").includes("07:00")){
+            reservations[lm][date].morning=true;
+          } else if((row.tijd||"").includes("11:30")){
+            reservations[lm][date].afternoon=true;
+          }
+          reservations[lm][date].project = row.project;
+          reservations[lm][date].werkzaamheden = row.werkzaamheden;
+          reservations[lm][date].email = row.email;
+          reservations[lm][date].tijd = row.tijd;
+        });
+        renderCalendar();
+      } catch(err){
+        console.error("Fout bij laden reserveringen:", err);
+      }
+    }
+
+return { openAgenda, closeAgenda };
+})();
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  const hamburger = document.querySelector(".hamburger");
+  const nav = document.querySelector(".subnav");
+  hamburger.addEventListener("click", function(){
+    const isOpen = nav.classList.toggle("open");
+    hamburger.setAttribute("aria-expanded", isOpen);
+  });
+});
+</script>
+
 </body>
 </html>
