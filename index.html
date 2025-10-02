@@ -14,7 +14,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
 <!-- Leaflet -->
 <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet">
-<script defer="" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script defer="" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+
+}
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+});
+
+
+
 <!-- QR generator -->
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 <style>
@@ -263,6 +274,274 @@
   .parallax { background-attachment:scroll; min-height:240px; }
 }
 
+
+/* Kalender moderner maken */
+#calendar {
+  margin-top: 2rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  background: #fff;
+  padding: 1rem;
+}
+
+/* Header stijlen */
+.fc-toolbar-title {
+  font-size: 1.4rem !important;
+  font-weight: 600 !important;
+  color: #00AEEF !important;
+}
+
+/* Navigatieknoppen */
+.fc-button {
+  background: #00AEEF !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  padding: .4rem .8rem !important;
+}
+.fc-button:hover {
+  background: #0095d6 !important;
+}
+
+/* Dagen en cellen */
+.fc-daygrid-day, .fc-timegrid-slot {
+  border-color: #f1f5f9 !important;
+}
+.fc-col-header-cell {
+  background: #f9fafb !important;
+  font-weight: 600;
+  color: #475569;
+}
+
+/* Events moderner */
+.fc-event {
+  border-radius: 6px !important;
+  padding: 2px 6px !important;
+  font-size: 0.85rem !important;
+  font-weight: 500 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+
+/* Kleuren reserveringen modern pastel */
+.fc-event.red, .fc-event[style*="red"] {
+  background: #fca5a5 !important; /* zacht rood */
+  border: none !important;
+  color: #7f1d1d !important;
+}
+.fc-event.orange, .fc-event[style*="orange"] {
+  background: #fdba74 !important; /* zacht oranje */
+  border: none !important;
+  color: #78350f !important;
+}
+.fc-event.green, .fc-event[style*="lightgreen"], .fc-event[style*="green"] {
+  background: #86efac !important; /* zacht groen */
+  border: none !important;
+  color: #064e3b !important;
+}
+
+
+/* Modernere achtergrond voor de agenda */
+#calendar {
+  margin-top: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  background: #ffffff;
+  padding: 1.5rem;
+}
+
+/* Header */
+.fc-toolbar-title {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: #00AEEF !important;
+  letter-spacing: 0.02em;
+}
+
+/* Buttons */
+.fc-button {
+  background: linear-gradient(135deg, #00AEEF, #0095d6) !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  padding: .5rem 1rem !important;
+  transition: transform .15s ease;
+}
+.fc-button:hover {
+  transform: translateY(-2px);
+}
+
+/* Events chip-stijl */
+.fc-event {
+  border-radius: 9999px !important;
+  padding: 4px 10px !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  transition: background .2s ease;
+}
+.fc-event:hover {
+  filter: brightness(0.95);
+}
+
+/* Vrij (groen) */
+.fc-event[style*="lightgreen"], .fc-event.green {
+  background: #bbf7d0 !important;
+  color: #166534 !important;
+}
+.fc-event[style*="lightgreen"]::before, .fc-event.green::before {
+  content: "✅";
+}
+
+/* Half (oranje) */
+.fc-event[style*="orange"], .fc-event.orange {
+  background: #fed7aa !important;
+  color: #7c2d12 !important;
+}
+.fc-event[style*="orange"]::before, .fc-event.orange::before {
+  content: "⚠️";
+}
+
+/* Vol (rood) */
+.fc-event[style*="red"], .fc-event.red {
+  background: #fecaca !important;
+  color: #7f1d1d !important;
+}
+.fc-event[style*="red"]::before, .fc-event.red::before {
+  content: "❌";
+}
+
+
+/* Dark mode styling */
+body.dark {
+  background: #0f172a;
+  color: #f1f5f9;
+}
+body.dark #calendar {
+  background: #1e293b;
+  border-color: #334155;
+}
+body.dark .fc-toolbar-title {
+  color: #38bdf8 !important;
+}
+body.dark .fc-button {
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9) !important;
+}
+body.dark .fc-col-header-cell {
+  background: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+body.dark .fc-event {
+  box-shadow: none !important;
+  opacity: 0.9;
+}
+
+
+/* Onbeschikbare dagen (eerste 3 dagen) */
+.fc-unavailable {
+  background-color: #f3f4f6 !important;
+  opacity: 0.7;
+  pointer-events: none; /* niet klikbaar */
+}
+body.dark .fc-unavailable {
+  background-color: #1e293b !important;
+}
+
+
+.fc-unavailable::after {
+  content: "🔒";
+  display: block;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 4px;
+  color: #9ca3af;
+}
+
+
+/* Popup reserveringsdetails */
+.reservation-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center; justify-content: center;
+}
+.reservation-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  animation: fadeIn 0.3s ease;
+}
+body.dark .reservation-content {
+  background: #1e293b;
+  color: #f1f5f9;
+}
+.reservation-close {
+  float: right;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+
+@keyframes popupFade {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reservation-content {
+  animation: popupFade 0.3s ease;
+}
+
+
+.reservation-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+.reservation-btn:hover {
+  background: #1e40af;
+}
+
+
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+  }
+  .qr {
+    margin-top: .5rem;
+    text-align: center;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+  }
+  .qr:hover {
+    opacity: 1;
+  }
+  .qr canvas {
+    width: 60px !important;
+    height: 60px !important;
+    margin: 0 auto;
+    display: block;
+  }
+  .qr small {
+    display: block;
+    font-size: 0.7rem;
+    color: #6b7280;
+    margin-top: .25rem;
+  }
+
 </style>
 <!-- FullCalendar Scheduler -->
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.8/index.global.min.css" rel="stylesheet"/>
@@ -293,15 +572,44 @@
       background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:200; }
     #agendaModal .modal-content { background:#fff; padding:2rem; border-radius:12px; max-width:520px; width:90%; text-align:left; }
   </style>
+
+<style>
+.legend {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  font-weight: 500;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.legend-color {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  display: inline-block;
+}
+.legend-green { background: #bbf7d0; border: 1px solid #166534; }
+.legend-orange { background: #fed7aa; border: 1px solid #7c2d12; }
+.legend-red { background: #fecaca; border: 1px solid #7f1d1d; }
+</style>
+
 </head>
 <body>
+<button id="darkModeToggle" class="mv-btn" style="position:fixed;top:1rem;right:1rem;z-index:500;">
+🌙 Dark Mode
+</button>
+
 <header class="topbar" role="banner">
 <div aria-label="NTP GeoDataLoket" class="brand">
 <img alt="NTP logo" height="60" loading="lazy" src="Logo_NTP.png" style="height:60px;margin-bottom:.5rem;" width="160"/>
 <div aria-live="polite" class="brand-title">
 <span class="name">GEODATALOKET</span>
 <span class="tag">Nauwkeurig · Toepasbaar · Praktisch</span>
-</div>
+
+  </div>
 </div>
 <button class="hamburger" aria-label="Menu openen" aria-expanded="false">☰</button>
 <nav aria-label="Hoofdnavigatie" class="subnav">
@@ -366,7 +674,21 @@ Waarom vGIS interessant voor NTP
 <p>De komende periode verkennen we verschillende toepassingen en bouwen we pilots, zodat AI stap voor stap een vast onderdeel wordt van onze werkprocessen.</p>
 </section>
 <section class="parallax" style="background-image:url('voorbeeld5.jpg')"></section>
-<section class="section" id="maatvoering"><h2>Maatvoering</h2><p>Beschikbaarheid per landmeter (komende 3 maanden). Groen = vrij, Oranje = half, Rood = vol.</p><button class="mv-btn" onclick="MaatvoeringCalendar.openAgenda()">Open Agenda</button><div id="calendar"></div><div id="statusMsg" style="margin:10px; font-weight:bold;"></div><div id="agendaModal">
+<section class="section" id="maatvoering"><h2>Maatvoering</h2>
+<p>
+Via deze website kun je eenvoudig de planning voor maatvoering bekijken en een landmeter reserveren. Houd er rekening mee dat reserveren pas mogelijk is vanaf 3 dagen na vandaag.
+</p>
+<p>
+Binnen NTP hebben we een beperkt aantal maatvoerders/landmeters die een belangrijke rol vervullen bij onze projecten. Om hun inzet zo efficiënt mogelijk te benutten, plannen we gestructureerd. Dit betekent dat niet alleen de werkzaamheden op locatie worden ingepland, maar ook tijd voor voorbereiding en verwerking. Zo zorgen we samen voor kwaliteit en continuïteit in de uitvoering.
+</p>
+<p>Onderstaande kalender geeft de actuele beschikbaarheid weer:</p>
+<div class="legend">
+  <div class="legend-item"><span class="legend-color legend-green"></span> Groen = volledig beschikbaar</div>
+  <div class="legend-item"><span class="legend-color legend-orange"></span> Oranje = nog één dagdeel beschikbaar</div>
+  <div class="legend-item"><span class="legend-color legend-red"></span> Rood = niet meer beschikbaar</div>
+</div>
+<div id="calendar"></div>
+<button class="mv-btn" style="margin-top:20px;" onclick="MaatvoeringCalendar.openAgenda()">Reserveer landmeter</button><div id="statusMsg" style="margin:10px; font-weight:bold;"></div><div id="agendaModal">
 <div class="modal-content">
 <h3 style="margin-top:0;color:#00AEEF;">Reserveer een landmeter</h3>
 <form id="agendaForm">
@@ -382,8 +704,8 @@ Waarom vGIS interessant voor NTP
 <label for="tijd">Tijd:</label><br/>
 <select id="tijd" name="tijd" required="">
 <option value="">-- kies --</option>
-<option value="morning">07:00 - 11:30</option>
-<option value="afternoon">11:30 - 16:00</option>
+<option value="morning">07:00 - 11:00</option>
+<option value="afternoon">12:00 - 16:00</option>
 <option value="fullday">Hele dag</option>
 </select><br/>
 <label for="werkzaamheden">Werkzaamheden:</label><br/>
@@ -395,7 +717,8 @@ Waarom vGIS interessant voor NTP
 <button class="mv-btn" type="submit">Reserveer</button>
 <button class="mv-btn" onclick="MaatvoeringCalendar.closeAgenda()" style="background:#ccc;color:#000;" type="button">Sluiten</button>
 </form>
-</div>
+
+  </div>
 </div></section>
 <section class="section" id="nieuws" style="padding:4rem 1rem;">
 <h2>Nieuws</h2>
@@ -470,21 +793,22 @@ Waarom vGIS interessant voor NTP
 <img alt="NTP Locatie 2" src="loc2.png"/>
 <img alt="NTP Locatie 3" src="loc3.png"/>
 <img alt="NTP Locatie 4" src="loc4.png"/>
-</div>
+
+  </div>
 </div>
 </div>
 </section>
 </main>
 <script>
     const projects=[
-      {id:"apeldoorn-wilhelmina",title:"Apeldoorn – Wilhelmina Druckerstraat",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-wilhelmina_druckerstraat",lat:52.211653,lng:5.9548165,password:"NTP2025"},
+      {id:"apeldoorn-wilhelmina",title:"Apeldoorn – Wilhelmina Druckerstraat",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-wilhelmina_druckerstraat",lat:52.211653,lng:5.9548165},
       {id:"doetinchem-1",title:"Doetinchem – 1",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-doetinchem_1",lat:51.9595997,lng:6.2990643},
       {id:"huizen-1",title:"Huizen – Stadenlande 1",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-huizen_stadenlande_1",lat:52.2939495,lng:5.2532121},
       {id:"huizen-2",title:"Huizen – Stadenlande 2",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-huizen_stadenlande_2",lat:52.2883596,lng:5.2535263},
       {id:"nijkerk-camperbuurt",title:"Nijkerk – Camperbuurt",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-camperbuurt",lat:52.2302263,lng:5.4890607},
       {id:"nijkerk-depot",title:"Nijkerk – Depot",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-depot_nijkerk",lat:52.2236767,lng:5.4610231},
       {id:"westervoort",title:"Westervoort",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-westervoort",lat:51.9626715,lng:5.9669338},
-      {id:"beuningen-beuningerstraat",title:"Beuningen – Beuningerstraat",url:"https://lcc-viewer.xgrids.com/pub/f9942c07-f0e3-4a60-9849-905f94b5d204",lat:52.3593892,lng:6.9974174,password:"NTP2025"}
+      {id:"beuningen-beuningerstraat",title:"Beuningen – Beuningerstraat",url:"https://lcc-viewer.xgrids.com/pub/f9942c07-f0e3-4a60-9849-905f94b5d204",lat:52.3593892,lng:6.9974174}
     ];
 
     function createProjectCard(p){
@@ -559,8 +883,8 @@ Waarom vGIS interessant voor NTP
 <label for="tijd">Tijd:</label><br/>
 <select id="tijd" required="" style="margin:.5rem 0;width:100%;padding:.5rem;">
 <option value="">-- kies --</option>
-<option value="morning">07:00 - 11:30</option>
-<option value="afternoon">11:30 - 16:00</option>
+<option value="morning">07:00 - 11:00</option>
+<option value="afternoon">12:00 - 16:00</option>
 <option value="fullday">Hele dag</option>
 </select><br/>
 <label for="werkzaamheden">Werkzaamheden:</label><br/>
@@ -570,7 +894,8 @@ Waarom vGIS interessant voor NTP
 <button class="mv-btn" type="submit">Reserveer</button>
 <button class="mv-btn" onclick="MaatvoeringCalendar.closeAgenda()" style="background:#ccc;color:#000;" type="button">Sluiten</button>
 </form>
-</div>
+
+  </div>
 </div>
 <script>
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxgpINoQNego19_BUVerkt65oTiLfrQ91gCrXe9vc3MSBsRRrAx0IZlONksxEIqEi-FNQ/exec";
@@ -609,9 +934,9 @@ window.MaatvoeringCalendar = (function(){
           if(r.morning && r.afternoon){
             events.push({ start: date+"T07:00:00", end: date+"T16:00:00", resourceId: lm, color: "red", title: "Reservering", landmeter: lm, project: r.project, werkzaamheden: r.werkzaamheden, tijd: "Hele dag" });
           } else if(r.morning){
-            events.push({ start: date+"T07:00:00", end: date+"T11:30:00", resourceId: lm, color: "orange", title: "Reservering", landmeter: lm, project: r.project, werkzaamheden: r.werkzaamheden, tijd: "07:00-11:30" });
+            events.push({ start: date+"T07:00:00", end: date+"T11:00:00", resourceId: lm, color: "orange", title: "Reservering", landmeter: lm, project: r.project, werkzaamheden: r.werkzaamheden, tijd: "07:00-11:30" });
           } else if(r.afternoon){
-            events.push({ start: date+"T11:30:00", end: date+"T16:00:00", resourceId: lm, color: "orange", title: "Reservering", landmeter: lm, project: r.project, werkzaamheden: r.werkzaamheden, tijd: "11:30-16:00" });
+            events.push({ start: date+"T12:00:00", end: date+"T16:00:00", resourceId: lm, color: "orange", title: "Reservering", landmeter: lm, project: r.project, werkzaamheden: r.werkzaamheden, tijd: "11:30-16:00" });
           }
         }
       }
@@ -635,25 +960,61 @@ window.MaatvoeringCalendar = (function(){
         slotLabelFormat: [{ weekday: 'long', day: 'numeric', month: 'short' }],
         nowIndicator: true,
         resources: [
-          { id: 'lm1', title: 'Landmeter 1' },
-          { id: 'lm2', title: 'Landmeter 2' },
-          { id: 'lm3', title: 'Landmeter 3' }
-        ],
-        validRange: {
-          start: today.toISOString().split('T')[0],
-          end: end.toISOString().split('T')[0]
-        },
-        events: [...buildBaseGreenEvents(), ...buildReservationEvents()],
-        eventClick: function(info){
-          const ev = info.event.extendedProps;
-          alert("📌 Reservering\n" +
-            "Landmeter: " + ev.landmeter + "\n" +
-            "Tijd: " + ev.tijd + "\n" +
-            "Project: " + ev.project + "\n" +
-            "Werkzaamheden: " + ev.werkzaamheden
-          );
-        },
-        height: 'auto'
+    { id: 'lm1', title: 'Landmeter 1' },
+    { id: 'lm2', title: 'Landmeter 2' },
+    { id: 'lm3', title: 'Landmeter 3' }
+  ],
+  events: [...buildBaseGreenEvents(), ...buildReservationEvents()],
+  eventClick: function(info){
+    const ev = info.event.extendedProps || {};
+
+    if(ev.beschikbaar){
+      // Beschikbaar blok → direct reserveringsformulier openen
+      const dateStr = info.event.startStr.split("T")[0];
+      const dateInput = document.getElementById("datum");
+      if(dateInput){ dateInput.value = dateStr; }
+
+      const tijdSelect = document.getElementById("tijd");
+      if(tijdSelect && ev.tijd){
+        if(tijdSelect.querySelector(`option[value="${ev.tijd}"]`)){
+          tijdSelect.value = ev.tijd;
+        }
+      }
+
+      const agendaModal = document.getElementById("agendaModal");
+      if(agendaModal){ agendaModal.style.display = "flex"; }
+    } else {
+      // Echte reservering → detail popup
+      document.getElementById("resLandmeter").textContent = ev.landmeter || "-";
+      document.getElementById("resTijd").textContent = ev.tijd || "-";
+      document.getElementById("resProject").textContent = ev.project || "-";
+      document.getElementById("resWerkzaamheden").textContent = ev.werkzaamheden || "-";
+      document.getElementById("reservationModal").style.display = "flex";
+    }
+  },
+  dateClick: function(info) {
+    const day = new Date(info.dateStr).getDay();
+    const minDate = new Date();
+    minDate.setDate(minDate.getDate()+3);
+    if(day === 0 || day === 6 || new Date(info.dateStr) < minDate){
+      return;
+    }
+    // Vul datum in formulier en toon agendaModal
+    const dateInput = document.getElementById("datum");
+    if(dateInput){ dateInput.value = info.dateStr; }
+    const agendaModal = document.getElementById("agendaModal");
+    if(agendaModal){ agendaModal.style.display = "flex"; }
+  },
+  height: 'auto',
+    dayCellDidMount: function(info) {
+      const minDate = new Date();
+      minDate.setDate(minDate.getDate()+3);
+      const cellDate = new Date(info.date);
+      const day = cellDate.getDay(); // 0=zo, 6=za
+      if(cellDate < minDate || day === 0 || day === 6){
+        info.el.classList.add("fc-unavailable");
+      }
+    }
       });
       calendar.render();
     }
@@ -668,6 +1029,15 @@ window.MaatvoeringCalendar = (function(){
       document.getElementById("agendaForm").addEventListener("submit", async function(e){
         e.preventDefault();
         const datum=document.getElementById("datum").value;
+        // Extra validatie: pas reserveren vanaf 3 dagen vooruit
+        const selDate = new Date(datum);
+        const minDate = new Date();
+        minDate.setDate(minDate.getDate()+3);
+        if(selDate < minDate){
+          alert("Je kunt pas reserveren vanaf " + minDate.toISOString().split("T")[0]);
+          return;
+        }
+
         const landmeter=document.getElementById("landmeter").value;
         const tijd=document.getElementById("tijd").value;
         const werk=document.getElementById("werkzaamheden").value;
@@ -730,11 +1100,11 @@ window.MaatvoeringCalendar = (function(){
         reservations[lm][date].afternoon = true;
       } else if (tijdTxt.includes("07:00")) {
         reservations[lm][date].morning = true;
-      } else if (tijdTxt.includes("11:30")) {
+      } else if (tijdTxt.includes("12:00")) {
         reservations[lm][date].afternoon = true;
       } else if((row.tijd||"").includes("07:00")){
             reservations[lm][date].morning=true;
-          } else if((row.tijd||"").includes("11:30")){
+          } else if((row.tijd||"").includes("12:00")){
             reservations[lm][date].afternoon=true;
           }
           reservations[lm][date].project = row.project;
@@ -760,6 +1130,48 @@ document.addEventListener("DOMContentLoaded", function(){
     const isOpen = nav.classList.toggle("open");
     hamburger.setAttribute("aria-expanded", isOpen);
   });
+});
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  const toggleBtn = document.getElementById("darkModeToggle");
+  toggleBtn.addEventListener("click", function(){
+    document.body.classList.toggle("dark");
+    toggleBtn.textContent = document.body.classList.contains("dark") ? "☀️ Light Mode" : "🌙 Dark Mode";
+  });
+});
+</script>
+
+
+<div id="reservationModal" class="reservation-modal">
+  <div class="reservation-content">
+    <span id="reservationClose" class="reservation-close">&times;</span>
+    <h2>Reserveringsdetails</h2>
+    <p><strong>Landmeter:</strong> <span id="resLandmeter"></span></p>
+    <p><strong>Tijd:</strong> <span id="resTijd"></span></p>
+    <p><strong>Project:</strong> <span id="resProject"></span></p>
+    <p><strong>Werkzaamheden:</strong> <span id="resWerkzaamheden"></span></p>
+  
+  </div>
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  function closeThisModal(modal){
+    if(modal){ modal.style.display = "none"; }
+  }
+  function wireModal(modal){
+    if(!modal) return;
+    const xBtn = modal.querySelector("#reservationClose");
+    const bottomBtn = modal.querySelector("#reservationCloseBtn");
+    if(xBtn){ xBtn.addEventListener("click", () => closeThisModal(modal)); }
+    if(bottomBtn){ bottomBtn.addEventListener("click", () => closeThisModal(modal)); }
+    window.addEventListener("click", (e) => { if(e.target === modal){ closeThisModal(modal); } });
+  }
+  document.querySelectorAll("#reservationModal").forEach(wireModal);
 });
 </script>
 
