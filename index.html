@@ -13,7 +13,7 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
 <!-- Leaflet -->
-<link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet">
+<link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"/>
 <script defer="" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 
 }
@@ -587,7 +587,6 @@ body.dark .reservation-content {
   .parallax {min-height:600px;}
 }
 </style>
-</link>
 <style>
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;padding:2rem}
     .mv-btn {background:#00AEEF;color:#fff;padding:.6rem 1rem;border-radius:8px;font-weight:600;cursor:pointer;border:none;}
@@ -604,7 +603,6 @@ body.dark .reservation-content {
   .parallax {min-height:600px;}
 }
 </style>
-
 <style>
 .legend {
   display: flex;
@@ -635,23 +633,44 @@ body.dark .reservation-content {
   .parallax {min-height:600px;}
 }
 </style>
-
 </head>
 <body>
-<button id="darkModeToggle" class="mv-btn" style="position:fixed;top:1rem;right:1rem;z-index:500;">
+<button class="mv-btn" id="darkModeToggle" style="position:fixed;top:1rem;right:1rem;z-index:500;">
 🌙 Dark Mode
 </button>
-
+<!-- Hero / Welkom sectie -->
+<section class="hero" style="
+  background-image:url('hearderbannerhero.jpg');
+  background-size:cover;
+  background-position:center;
+  height:75vh;
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:white;
+  position:relative;">
+<!-- donkere overlay voor leesbaarheid -->
+<div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);"></div>
+<div style="position:relative;z-index:1;max-width:900px;padding:2rem;">
+<h1 style="font-size:3rem;font-weight:800;margin-bottom:1.5rem;">Welkom bij NTP GeoDataLoket</h1>
+<p style="font-size:1.3rem;line-height:1.6;margin-bottom:2rem;">
+      Het centrale loket voor GIS, FME, Scanning, AI en maatvoering.<br/>
+      Betrouwbare data, slimme tools en directe toepasbaarheid voor elk project.
+    </p>
+<a class="btn" href="#main" style="font-size:1.1rem;padding:1rem 2rem;">Ontdek meer</a>
+</div>
+</section>
 <header class="topbar" role="banner">
 <div aria-label="NTP GeoDataLoket" class="brand">
 <img alt="NTP logo" height="60" loading="lazy" src="Logo_NTP.png" style="height:60px;margin-bottom:.5rem;" width="160"/>
 <div aria-live="polite" class="brand-title">
 <span class="name">GEODATALOKET</span>
 <span class="tag">Nauwkeurig · Toepasbaar · Praktisch</span>
-
-  </div>
 </div>
-<button class="hamburger" aria-label="Menu openen" aria-expanded="false">☰</button>
+</div>
+<button aria-expanded="false" aria-label="Menu openen" class="hamburger">☰</button>
 <nav aria-label="Hoofdnavigatie" class="subnav">
 <div class="row">
 <a href="https://ntpbv.maps.arcgis.com/home/index.html" rel="noopener noreferrer" target="_blank">GIS</a>
@@ -689,19 +708,15 @@ Altijd actuele en consistente informatie beschikbaar voor iedereen in het projec
 Kortom: FME maakt van een wirwar aan data een overzichtelijk geheel. Het zorgt dat data beweegt waar jij dat wilt, zodat jij je kunt richten op de inhoud van het project in plaats van op bestandsformaten.</p>
 </section>
 <section class="parallax" style="background-image:url('voorbeeld2.jpg')"></section>
-
-
-
 <section class="section" id="scan" style="padding:4rem 1rem;">
-  <h2 style="text-align:center;"><a href="projecten.html" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none;">SCAN – Xgrid Projecten</a></h2>
-  <p style="max-width:800px;margin:1rem auto;text-align:center;">
+<h2 style="text-align:center;"><a href="projecten.html" rel="noopener noreferrer" style="color:inherit; text-decoration:none;" target="_blank">SCAN – Xgrid Projecten</a></h2>
+<p style="max-width:800px;margin:1rem auto;text-align:center;">
     Binnen NTP beschikken we nu over de <strong>LixelKity K1</strong>, een geavanceerde handheld 3D-scanner. 
     Met dit compacte systeem brengen we locaties snel en nauwkeurig in kaart via LiDAR en panoramische camera’s. 
     Zo genereren we direct real-time, gekleurde 3D-modellen met hoge precisie – ideaal voor onze projecten en digitale vastlegging.
   </p>
-  <div id="map" style="margin-top:2rem; width:100%; height:440px; border:1px solid #e5e7eb; border-radius:14px;"></div>
+<div id="map" style="margin-top:2rem; width:100%; height:440px; border:1px solid #e5e7eb; border-radius:14px;"></div>
 </section>
-
 <script>
 async function loadProjects() {
   try {
@@ -733,8 +748,6 @@ document.addEventListener("DOMContentLoaded", async function() {
   });
 });
 </script>
-
-
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   if (typeof L === "undefined") return;
@@ -751,9 +764,6 @@ document.addEventListener("DOMContentLoaded", function() {
     .openPopup();
 });
 </script>
-
-
-</section>
 <section class="parallax" style="background-image:url('voorbeeld3.jpg')"></section>
 <section class="section" id="vgis" style="padding:4rem 1rem;text-align:center;">
 <h2>VGIS</h2>
@@ -773,21 +783,17 @@ Waarom vGIS interessant voor NTP
   AI helpt ons om niet alleen reactief maar ook proactief te werken: problemen eerder signaleren, kansen sneller benutten en onze projecten aantoonbaar duurzamer en veiliger uit te voeren.</p>
 <p>De komende periode verkennen we verschillende toepassingen en bouwen we pilots, zodat AI stap voor stap een vast onderdeel wordt van onze werkprocessen.</p>
 <div style="margin-top:2rem;">
-  <h3>
-    <img src="telraam_logo.png" alt="Telraam logo" 
-         style="height:28px;vertical-align:middle;margin-right:8px;opacity:0.8;">
+<h3>
+<img alt="Telraam logo" src="telraam_logo.png" style="height:28px;vertical-align:middle;margin-right:8px;opacity:0.8;"/>
     Telraam Dashboard
   </h3>
-  <iframe 
-    src="https://telraam.net/nl#14/52.1779/5.4681" 
-    style="width:100%;height:600px;border:1px solid #e5e7eb;
-           border-radius:14px;box-shadow:0 4px 12px rgba(0,0,0,.08);" 
-    loading="lazy">
-  </iframe>
-  <div style="max-width:800px;margin:1.5rem auto;padding:1rem;
+<iframe loading="lazy" src="https://telraam.net/nl#14/52.1779/5.4681" style="width:100%;height:600px;border:1px solid #e5e7eb;
+           border-radius:14px;box-shadow:0 4px 12px rgba(0,0,0,.08);">
+</iframe>
+<div style="max-width:800px;margin:1.5rem auto;padding:1rem;
               border:1px solid #e5e7eb;border-radius:12px;
               background:#f9fafb;color:#475569;font-size:0.95rem;">
-    <strong>Telraam</strong> is een innovatief platform dat gebruikmaakt van AI 
+<strong>Telraam</strong> is een innovatief platform dat gebruikmaakt van AI 
     om voertuigen automatisch te herkennen en te tellen. Met behulp van sensoren 
     en beeldherkenning worden verkeersstromen geanalyseerd, waardoor betrouwbare 
     data beschikbaar komt voor onderzoek, beleid en projectplanning. 
@@ -805,12 +811,12 @@ Binnen NTP hebben we een beperkt aantal maatvoerders/landmeters die een belangri
 </p>
 <p>Onderstaande kalender geeft de actuele beschikbaarheid weer:</p>
 <div class="legend">
-  <div class="legend-item"><span class="legend-color legend-green"></span> Groen = volledig beschikbaar</div>
-  <div class="legend-item"><span class="legend-color legend-orange"></span> Oranje = nog één dagdeel beschikbaar</div>
-  <div class="legend-item"><span class="legend-color legend-red"></span> Rood = niet meer beschikbaar</div>
+<div class="legend-item"><span class="legend-color legend-green"></span> Groen = volledig beschikbaar</div>
+<div class="legend-item"><span class="legend-color legend-orange"></span> Oranje = nog één dagdeel beschikbaar</div>
+<div class="legend-item"><span class="legend-color legend-red"></span> Rood = niet meer beschikbaar</div>
 </div>
 <div id="calendar"></div>
-<button class="mv-btn" style="margin-top:20px;" onclick="MaatvoeringCalendar.openAgenda()">Reserveer landmeter</button><div id="statusMsg" style="margin:10px; font-weight:bold;"></div><div id="agendaModal">
+<button class="mv-btn" onclick="MaatvoeringCalendar.openAgenda()" style="margin-top:20px;">Reserveer landmeter</button><div id="statusMsg" style="margin:10px; font-weight:bold;"></div><div id="agendaModal">
 <div class="modal-content">
 <h3 style="margin-top:0;color:#00AEEF;">Reserveer een landmeter</h3>
 <form id="agendaForm">
@@ -839,8 +845,7 @@ Binnen NTP hebben we een beperkt aantal maatvoerders/landmeters die een belangri
 <button class="mv-btn" type="submit">Reserveer</button>
 <button class="mv-btn" onclick="MaatvoeringCalendar.closeAgenda()" style="background:#ccc;color:#000;" type="button">Sluiten</button>
 </form>
-
-  </div>
+</div>
 </div></section>
 <section class="section" id="nieuws" style="padding:4rem 1rem;">
 <h2>Nieuws</h2>
@@ -871,91 +876,85 @@ Binnen NTP hebben we een beperkt aantal maatvoerders/landmeters die een belangri
 <!-- Gestylede contactsectie -->
 <!-- Gestylede contactsectie -->
 <section id="contact" style="padding:4rem 0; background:#fffde7; width:100%;">
-  <div class="section">
-    <h2 style="text-align:center;margin-bottom:2rem;">Contact</h2>
-    <div class="contact-grid">
-      <!-- Teamleden -->
-      <div>
-        <article class="contact-card">
-          <img alt="Björn Wunderink" src="bjorn.png" style="width:120px;height:120px;object-fit:cover;border-radius:12px;"/>
-          <div>
-            <h3>Björn Wunderink</h3>
-            <p><strong>Specialist Geo Data</strong></p>
-            <p>
-              <a href="mailto:b.wunderink@ntp.nl">b.wunderink@ntp.nl</a><br/>
-              <a href="tel:+31610740548">+31 6 10740548</a>
-            </p>
-          </div>
-        </article>
-        <article class="contact-card">
-          <img alt="Thijs van der Pal" src="Thijs.png" style="width:120px;height:120px;object-fit:cover;border-radius:12px;"/>
-          <div>
-            <h3>Thijs van der Pal</h3>
-            <p><strong>Specialist GIS Geodata</strong></p>
-            <p>
-              <a href="mailto:t.vanderpal@ntp.nl">t.vanderpal@ntp.nl</a><br/>
-              <a href="tel:+31657404089">+31 6 57404089</a>
-            </p>
-          </div>
-        </article>
-        <article class="contact-card">
-          <img alt="Dirk Bakker" src="Dirk.png" style="width:120px;height:120px;object-fit:cover;border-radius:12px;"/>
-          <div>
-            <h3>Dirk Bakker</h3>
-            <p><strong>Specialist FME Geodata</strong></p>
-            <p>
-              <a href="mailto:d.bakker@ntp.nl">d.bakker@ntp.nl</a><br/>
-              <a href="tel:+31651033684">+31 6 51033684</a>
-            </p>
-          </div>
-        </article>
-      </div>
-
-      <!-- Locaties -->
-      <div>
-        <h3 style="margin-top:0;">Onze locaties</h3>
-        <div class="locations-grid">
-          
-          <!-- Midden -->
-          <div class="contact-card" style="flex-direction:column;align-items:center;text-align:center;">
-            <img alt="NTP Midden" src="loc1.png" style="width:100%;border-radius:14px;margin-bottom:1rem;"/>
-            <h3>NTP Midden</h3>
-            <p>📞 <a href="tel:+31384441681">+31 (0)384441681</a></p>
-            <p>✉️ <a href="mailto:midden@ntp.nl">midden@ntp.nl</a></p>
-            <p>📍 <a href="https://maps.google.com?q=Utrecht" target="_blank">Plan route</a></p>
-          </div>
-
-          <!-- Hattem -->
-          <div class="contact-card" style="flex-direction:column;align-items:center;text-align:center;">
-            <img alt="NTP Hattem" src="loc2.png" style="width:100%;border-radius:14px;margin-bottom:1rem;"/>
-            <h3>NTP Hattem</h3>
-            <p>📞 <a href="tel:+31384441681">+31 (0)384441681</a></p>
-            <p>✉️ <a href="mailto:hattem@ntp.nl">hattem@ntp.nl</a></p>
-            <p>📍 <a href="https://maps.google.com?q=Hattem" target="_blank">Plan route</a></p>
-          </div>
-
-          <!-- Enschede -->
-          <div class="contact-card" style="flex-direction:column;align-items:center;text-align:center;">
-            <img alt="NTP Enschede" src="loc3.png" style="width:100%;border-radius:14px;margin-bottom:1rem;"/>
-            <h3>NTP Enschede</h3>
-            <p>📞 <a href="tel:+31534614411">+31 (0)534614411</a></p>
-            <p>✉️ <a href="mailto:enschede@ntp.nl">enschede@ntp.nl</a></p>
-            <p>📍 <a href="https://maps.google.com?q=Enschede" target="_blank">Plan route</a></p>
-          </div>
-
-          <!-- Zevenaar -->
-          <div class="contact-card" style="flex-direction:column;align-items:center;text-align:center;">
-            <img alt="NTP Zevenaar" src="loc4.png" style="width:100%;border-radius:14px;margin-bottom:1rem;"/>
-            <h3>NTP Zevenaar</h3>
-            <p>📞 <a href="tel:+31313478587">+31 (0)313478587</a></p>
-            <p>✉️ <a href="mailto:zevenaar@ntp.nl">zevenaar@ntp.nl</a></p>
-            <p>📍 <a href="https://maps.google.com?q=Zevenaar" target="_blank">Plan route</a></p>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="section">
+<h2 style="text-align:center;margin-bottom:2rem;">Contact</h2>
+<div class="contact-grid">
+<!-- Teamleden -->
+<div>
+<article class="contact-card">
+<img alt="Björn Wunderink" src="bjorn.png" style="width:120px;height:120px;object-fit:cover;border-radius:12px;"/>
+<div>
+<h3>Björn Wunderink</h3>
+<p><strong>Specialist Geo Data</strong></p>
+<p>
+<a href="mailto:b.wunderink@ntp.nl">b.wunderink@ntp.nl</a><br/>
+<a href="tel:+31610740548">+31 6 10740548</a>
+</p>
+</div>
+</article>
+<article class="contact-card">
+<img alt="Thijs van der Pal" src="Thijs.png" style="width:120px;height:120px;object-fit:cover;border-radius:12px;"/>
+<div>
+<h3>Thijs van der Pal</h3>
+<p><strong>Specialist GIS Geodata</strong></p>
+<p>
+<a href="mailto:t.vanderpal@ntp.nl">t.vanderpal@ntp.nl</a><br/>
+<a href="tel:+31657404089">+31 6 57404089</a>
+</p>
+</div>
+</article>
+<article class="contact-card">
+<img alt="Dirk Bakker" src="Dirk.png" style="width:120px;height:120px;object-fit:cover;border-radius:12px;"/>
+<div>
+<h3>Dirk Bakker</h3>
+<p><strong>Specialist FME Geodata</strong></p>
+<p>
+<a href="mailto:d.bakker@ntp.nl">d.bakker@ntp.nl</a><br/>
+<a href="tel:+31651033684">+31 6 51033684</a>
+</p>
+</div>
+</article>
+</div>
+<!-- Locaties -->
+<div>
+<h3 style="margin-top:0;">Onze locaties</h3>
+<div class="locations-grid">
+<!-- Midden -->
+<div class="contact-card" style="flex-direction:column;align-items:center;text-align:center;">
+<img alt="NTP Midden" src="loc1.png" style="width:100%;border-radius:14px;margin-bottom:1rem;"/>
+<h3>NTP Midden</h3>
+<p>📞 <a href="tel:+31384441681">+31 (0)384441681</a></p>
+<p>✉️ <a href="mailto:midden@ntp.nl">midden@ntp.nl</a></p>
+<p>📍 <a href="https://maps.google.com?q=Utrecht" target="_blank">Plan route</a></p>
+</div>
+<!-- Hattem -->
+<div class="contact-card" style="flex-direction:column;align-items:center;text-align:center;">
+<img alt="NTP Hattem" src="loc2.png" style="width:100%;border-radius:14px;margin-bottom:1rem;"/>
+<h3>NTP Hattem</h3>
+<p>📞 <a href="tel:+31384441681">+31 (0)384441681</a></p>
+<p>✉️ <a href="mailto:hattem@ntp.nl">hattem@ntp.nl</a></p>
+<p>📍 <a href="https://maps.google.com?q=Hattem" target="_blank">Plan route</a></p>
+</div>
+<!-- Enschede -->
+<div class="contact-card" style="flex-direction:column;align-items:center;text-align:center;">
+<img alt="NTP Enschede" src="loc3.png" style="width:100%;border-radius:14px;margin-bottom:1rem;"/>
+<h3>NTP Enschede</h3>
+<p>📞 <a href="tel:+31534614411">+31 (0)534614411</a></p>
+<p>✉️ <a href="mailto:enschede@ntp.nl">enschede@ntp.nl</a></p>
+<p>📍 <a href="https://maps.google.com?q=Enschede" target="_blank">Plan route</a></p>
+</div>
+<!-- Zevenaar -->
+<div class="contact-card" style="flex-direction:column;align-items:center;text-align:center;">
+<img alt="NTP Zevenaar" src="loc4.png" style="width:100%;border-radius:14px;margin-bottom:1rem;"/>
+<h3>NTP Zevenaar</h3>
+<p>📞 <a href="tel:+31313478587">+31 (0)313478587</a></p>
+<p>✉️ <a href="mailto:zevenaar@ntp.nl">zevenaar@ntp.nl</a></p>
+<p>📍 <a href="https://maps.google.com?q=Zevenaar" target="_blank">Plan route</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
 </main>
 <script>
@@ -1043,7 +1042,6 @@ Binnen NTP hebben we een beperkt aantal maatvoerders/landmeters die een belangri
     });
   
 </script>
-
 <div id="agendaModal">
 <div class="modal-content">
 <h3 style="margin-top:0;color:#00AEEF;">Reserveer een landmeter</h3>
@@ -1071,8 +1069,7 @@ Binnen NTP hebben we een beperkt aantal maatvoerders/landmeters die een belangri
 <button class="mv-btn" type="submit">Reserveer</button>
 <button class="mv-btn" onclick="MaatvoeringCalendar.closeAgenda()" style="background:#ccc;color:#000;" type="button">Sluiten</button>
 </form>
-
-  </div>
+</div>
 </div>
 <script>
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxgpINoQNego19_BUVerkt65oTiLfrQ91gCrXe9vc3MSBsRRrAx0IZlONksxEIqEi-FNQ/exec";
@@ -1298,7 +1295,6 @@ window.MaatvoeringCalendar = (function(){
 return { openAgenda, closeAgenda };
 })();
 </script>
-
 <script>
 document.addEventListener("DOMContentLoaded", function(){
   const hamburger = document.querySelector(".hamburger");
@@ -1309,8 +1305,6 @@ document.addEventListener("DOMContentLoaded", function(){
   });
 });
 </script>
-
-
 <script>
 document.addEventListener("DOMContentLoaded", function(){
   const toggleBtn = document.getElementById("darkModeToggle");
@@ -1320,21 +1314,16 @@ document.addEventListener("DOMContentLoaded", function(){
   });
 });
 </script>
-
-
-<div id="reservationModal" class="reservation-modal">
-  <div class="reservation-content">
-    <span id="reservationClose" class="reservation-close">&times;</span>
-    <h2>Reserveringsdetails</h2>
-    <p><strong>Landmeter:</strong> <span id="resLandmeter"></span></p>
-    <p><strong>Tijd:</strong> <span id="resTijd"></span></p>
-    <p><strong>Project:</strong> <span id="resProject"></span></p>
-    <p><strong>Werkzaamheden:</strong> <span id="resWerkzaamheden"></span></p>
-  
-  </div>
+<div class="reservation-modal" id="reservationModal">
+<div class="reservation-content">
+<span class="reservation-close" id="reservationClose">×</span>
+<h2>Reserveringsdetails</h2>
+<p><strong>Landmeter:</strong> <span id="resLandmeter"></span></p>
+<p><strong>Tijd:</strong> <span id="resTijd"></span></p>
+<p><strong>Project:</strong> <span id="resProject"></span></p>
+<p><strong>Werkzaamheden:</strong> <span id="resWerkzaamheden"></span></p>
 </div>
-
-
+</div>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
   function closeThisModal(modal){
@@ -1351,6 +1340,5 @@ document.addEventListener("DOMContentLoaded", function(){
   document.querySelectorAll("#reservationModal").forEach(wireModal);
 });
 </script>
-
 </body>
 </html>
