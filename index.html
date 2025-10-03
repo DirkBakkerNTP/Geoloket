@@ -542,6 +542,14 @@ body.dark .reservation-content {
     margin-top: .25rem;
   }
 
+
+.parallax {min-height:500px;}
+@media (max-width: 768px) {
+  .parallax {min-height:300px;}
+}
+@media (min-width: 1200px) {
+  .parallax {min-height:600px;}
+}
 </style>
 <!-- FullCalendar Scheduler -->
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.8/index.global.min.css" rel="stylesheet"/>
@@ -557,12 +565,28 @@ body.dark .reservation-content {
       border:none;
     }
     .fc-today { background:#e0f2fe !important; }
-  </style>
+  
+.parallax {min-height:500px;}
+@media (max-width: 768px) {
+  .parallax {min-height:300px;}
+}
+@media (min-width: 1200px) {
+  .parallax {min-height:600px;}
+}
+</style>
 <style>
     #agendaModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%;
       background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:200; }
     #agendaModal .modal-content { background:#fff; padding:2rem; border-radius:12px; max-width:520px; width:90%; text-align:left; }
-  </style>
+  
+.parallax {min-height:500px;}
+@media (max-width: 768px) {
+  .parallax {min-height:300px;}
+}
+@media (min-width: 1200px) {
+  .parallax {min-height:600px;}
+}
+</style>
 </link>
 <style>
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;padding:2rem}
@@ -571,7 +595,15 @@ body.dark .reservation-content {
     #agendaModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%;
       background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:200; }
     #agendaModal .modal-content { background:#fff; padding:2rem; border-radius:12px; max-width:520px; width:90%; text-align:left; }
-  </style>
+  
+.parallax {min-height:500px;}
+@media (max-width: 768px) {
+  .parallax {min-height:300px;}
+}
+@media (min-width: 1200px) {
+  .parallax {min-height:600px;}
+}
+</style>
 
 <style>
 .legend {
@@ -594,6 +626,14 @@ body.dark .reservation-content {
 .legend-green { background: #bbf7d0; border: 1px solid #166534; }
 .legend-orange { background: #fed7aa; border: 1px solid #7c2d12; }
 .legend-red { background: #fecaca; border: 1px solid #7f1d1d; }
+
+.parallax {min-height:500px;}
+@media (max-width: 768px) {
+  .parallax {min-height:300px;}
+}
+@media (min-width: 1200px) {
+  .parallax {min-height:600px;}
+}
 </style>
 
 </head>
@@ -755,7 +795,7 @@ Waarom vGIS interessant voor NTP
   </div>
 </div>
 </section>
-<section class="parallax" style="background-image:url('voorbeeld5.jpg')"></section>
+<section class="parallax" style="background-image:url('voorbeeld5.jpg');min-height:500px;"></section>
 <section class="section" id="maatvoering"><h2>Maatvoering</h2>
 <p>
 Via deze website kun je eenvoudig de planning voor maatvoering bekijken en een landmeter reserveren. Houd er rekening mee dat reserveren pas mogelijk is vanaf 3 dagen na vandaag.
