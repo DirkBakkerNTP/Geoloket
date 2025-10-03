@@ -91,6 +91,20 @@
       border-top:1px solid var(--card-border);
       background:#f9fafb;
     }
+
+  .subnav {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease;
+  }
+  .subnav.open {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
     .subnav .row{
       max-width:1200px;
       margin:0 auto;
