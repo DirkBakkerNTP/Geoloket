@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NTP GeoDataLoket – Xgrid Projecten</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+
+  <!-- Leaflet voor kaart -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- QR generator -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: #fff;
+      color: #0f172a;
+      line-height: 1.5;
+    }
+    header {
+      background: #00AEEF;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    /* Project grid */
+    #projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,.08);
+      overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 12px rgba(0,0,0,.12);
+    }
+    .card h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.6rem;
+      background: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .card .content {
+      padding: 0.6rem;
+      text-align: center;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: .5rem;
+      padding: .4rem .8rem;
+      border-radius: 6px;
+      font-size: .85rem;
+      font-weight: 600;
+      text-decoration: none;
+      background: #00AEEF;
+      color: #fff;
+      transition: background .2s ease;
+    }
+    .btn:hover {
+      background: #0095d6;
+    }
+
+    .qr {
+      margin-top: .5rem;
+      text-align: center;
+    }
+    .qr canvas {
+      width: 40px !important;
+      height: 40px !important;
+      margin: auto;
+      display: block;
+    }
+
+    /* Kaart styling */
+    #map {
+      width: 100%;
+      height: 400px;
+      margin: 2rem auto;
+      max-width: 1200px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,.08);
+    }
+  
+  .back-btn {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    background: #00AEEF;
+    color: #fff;
+    transition: background 0.2s ease;
+  }
+  .back-btn:hover {
+    background: #0095d6;
+  }
+</style>
+
+</head>
+<body>
+  <header>
+    <h1>SCAN – Xgrid Projecten</h1>
+  <a href="index.html" class="back-btn">← Terug</a>
+  </header>
+
+  <main>
+    <section>
+      <div id="projects"></div>
+      <div id="map"></div>
+    </section>
+  </main>
+
+  <script>
+    let projects = [];
+
+    async function loadProjects() {
+      try {
+        const resp = await fetch("https://script.google.com/macros/s/AKfycbyPJJMiLM4yypa_YsV0zhwJYQSSr4wOLQuxrY7WIu4CVzcxf5SDVHdQVRd9NQTQUus9JQ/exec");
+        const data = await resp.json();
+        return data.map(row => {
+          const nr = row.projectnummer?.toString().trim() || "";
+          const nm = (row.projectnaam || "").toString().trim().replace(/\s+/g, '_');
+          const sn = row.scannummer?.toString().trim() || "";
+          const title = `${nr}_${nm}_${sn}`;
+          return {
+            id: title.toLowerCase().replace(/[^a-z0-9\-_]/g, '-'),
+            title: title,
+            url: row.url,
+            lat: parseFloat(row.lat),
+            lng: parseFloat(row.lng),
+            password: row.password || null
+          };
+        });
+      } catch (err) {
+        console.error("Fout bij laden projecten:", err);
+        return [];
+      }
+    }
+
+    function createProjectCard(p) {
+      const card = document.createElement("article");
+      card.className = "card";
+      card.setAttribute("aria-labelledby", `h-${p.id}`);
+      card.innerHTML = `
+        <h3 id="h-${p.id}">${p.title}</h3>
+        <div class="content">
+          <a class="btn" href="${p.url}" target="_blank" rel="noopener noreferrer">Openen</a>
+          ${p.password ? `<p><small>Wachtwoord: ${p.password}</small></p>` : ""}
+          <div class="qr"><canvas id="qr-${p.id}"></canvas></div>
+        </div>`;
+      return card;
+    }
+
+    function renderProjects() {
+      const container = document.getElementById("projects");
+      container.innerHTML = "";
+      projects.forEach(p => {
+        const card = createProjectCard(p);
+        container.appendChild(card);
+        if (typeof QRious !== "undefined") {
+          new QRious({
+            element: document.getElementById(`qr-${p.id}`),
+            value: p.url,
+            size: 40,
+            foreground: "#00AEEF"
+          });
+        }
+      });
+    }
+
+    function initMap() {
+      const el = document.getElementById("map");
+      if (typeof L === "undefined" || !el) return;
+      const map = L.map(el, { scrollWheelZoom: true }).setView([52.15, 5.3], 8);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "&copy; OpenStreetMap-bijdragers"
+      }).addTo(map);
+      projects.forEach(p => {
+        if (p.lat && p.lng) {
+          const m = L.marker([p.lat, p.lng]).addTo(map);
+          let popup = `<b>${p.title}</b><br><a href="${p.url}" target="_blank">Open project</a>`;
+          if (p.password) popup += `<br><small>Wachtwoord: ${p.password}</small>`;
+          m.bindPopup(popup);
+        }
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      projects = await loadProjects();
+      renderProjects();
+      initMap();
+    });
+  </script>
+</body>
+</html>

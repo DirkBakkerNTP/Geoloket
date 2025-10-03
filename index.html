@@ -649,10 +649,70 @@ Altijd actuele en consistente informatie beschikbaar voor iedereen in het projec
 Kortom: FME maakt van een wirwar aan data een overzichtelijk geheel. Het zorgt dat data beweegt waar jij dat wilt, zodat jij je kunt richten op de inhoud van het project in plaats van op bestandsformaten.</p>
 </section>
 <section class="parallax" style="background-image:url('voorbeeld2.jpg')"></section>
+
+
+
 <section class="section" id="scan" style="padding:4rem 1rem;">
-<h2 style="text-align:center;">SCAN – Xgrid Projecten</h2>
-<div aria-live="polite" id="projects"></div>
-<div aria-label="Projectkaart" id="map" role="region"></div>
+  <h2 style="text-align:center;"><a href="projecten.html" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none;">SCAN – Xgrid Projecten</a></h2>
+  <p style="max-width:800px;margin:1rem auto;text-align:center;">
+    Binnen NTP beschikken we nu over de <strong>LixelKity K1</strong>, een geavanceerde handheld 3D-scanner. 
+    Met dit compacte systeem brengen we locaties snel en nauwkeurig in kaart via LiDAR en panoramische camera’s. 
+    Zo genereren we direct real-time, gekleurde 3D-modellen met hoge precisie – ideaal voor onze projecten en digitale vastlegging.
+  </p>
+  <div id="map" style="margin-top:2rem; width:100%; height:440px; border:1px solid #e5e7eb; border-radius:14px;"></div>
+</section>
+
+<script>
+async function loadProjects() {
+  try {
+    const resp = await fetch("https://script.google.com/macros/s/AKfycbyPJJMiLM4yypa_YsV0zhwJYQSSr4wOLQuxrY7WIu4CVzcxf5SDVHdQVRd9NQTQUus9JQ/exec");
+    return await resp.json();
+  } catch (err) {
+    console.error("Fout bij laden projecten:", err);
+    return [];
+  }
+}
+
+document.addEventListener("DOMContentLoaded", async function() {
+  if (typeof L === "undefined") return;
+  const map = L.map("map").setView([52.15, 5.3], 8);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: "&copy; OpenStreetMap-bijdragers"
+  }).addTo(map);
+
+  const projects = await loadProjects();
+  projects.forEach(row => {
+    if (row.lat && row.lng) {
+      const title = `${row.projectnummer || ""} ${row.projectnaam || ""} ${row.scannummer || ""}`;
+      let popup = `<b>${title}</b><br><a href="${row.url}" target="_blank">Open project</a>`;
+      if (row.password) popup += `<br><small>Wachtwoord: ${row.password}</small>`;
+      L.marker([parseFloat(row.lat), parseFloat(row.lng)]).addTo(map).bindPopup(popup);
+    }
+  });
+});
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  if (typeof L === "undefined") return;
+  const map = L.map("map").setView([52.15, 5.3], 8); // Midden NL
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: "&copy; OpenStreetMap-bijdragers"
+  }).addTo(map);
+
+  // Voorbeeld marker
+  L.marker([52.15, 5.3]).addTo(map)
+    .bindPopup("Voorbeeld: NTP GeoDataLoket")
+    .openPopup();
+});
+</script>
+
+
 </section>
 <section class="parallax" style="background-image:url('voorbeeld3.jpg')"></section>
 <section class="section" id="vgis" style="padding:4rem 1rem;text-align:center;">
@@ -800,72 +860,90 @@ Binnen NTP hebben we een beperkt aantal maatvoerders/landmeters die een belangri
 </section>
 </main>
 <script>
-    const projects=[
-      {id:"apeldoorn-wilhelmina",title:"Apeldoorn – Wilhelmina Druckerstraat",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-wilhelmina_druckerstraat",lat:52.211653,lng:5.9548165},
-      {id:"doetinchem-1",title:"Doetinchem – 1",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-doetinchem_1",lat:51.9595997,lng:6.2990643},
-      {id:"huizen-1",title:"Huizen – Stadenlande 1",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-huizen_stadenlande_1",lat:52.2939495,lng:5.2532121},
-      {id:"huizen-2",title:"Huizen – Stadenlande 2",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-huizen_stadenlande_2",lat:52.2883596,lng:5.2535263},
-      {id:"nijkerk-camperbuurt",title:"Nijkerk – Camperbuurt",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-camperbuurt",lat:52.2302263,lng:5.4890607},
-      {id:"nijkerk-depot",title:"Nijkerk – Depot",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-depot_nijkerk",lat:52.2236767,lng:5.4610231},
-      {id:"westervoort",title:"Westervoort",url:"https://lcc-viewer.xgrids.com/pub/dbmahu-westervoort",lat:51.9626715,lng:5.9669338},
-      {id:"beuningen-beuningerstraat",title:"Beuningen – Beuningerstraat",url:"https://lcc-viewer.xgrids.com/pub/f9942c07-f0e3-4a60-9849-905f94b5d204",lat:52.3593892,lng:6.9974174}
-    ];
 
-    function createProjectCard(p){
-      const card=document.createElement('article');
-      card.className='card';
-      card.setAttribute('aria-labelledby',`h-${p.id}`);
-      card.innerHTML=`
+    let projects = [];
+
+    async function loadProjects() {
+      try {
+        const resp = await fetch("https://script.google.com/macros/s/AKfycbyPJJMiLM4yypa_YsV0zhwJYQSSr4wOLQuxrY7WIu4CVzcxf5SDVHdQVRd9NQTQUus9JQ/exec");
+        const data = await resp.json();
+        return data.map(row => {
+          const nr = row.projectnummer?.toString().trim() || "";
+          const nm = (row.projectnaam || "").toString().trim().replace(/\s+/g, '_');
+          const sn = row.scannummer?.toString().trim() || "";
+          const title = `${nr}_${nm}_${sn}`;
+          return {
+            id: title.toLowerCase().replace(/[^a-z0-9\-_]/g, '-'),
+            title: title,
+            url: row.url,
+            lat: parseFloat(row.lat),
+            lng: parseFloat(row.lng),
+            password: row.password || null
+          };
+        });
+      } catch (err) {
+        console.error("Fout bij laden projecten:", err);
+        return [];
+      }
+    }
+
+    function createProjectCard(p) {
+      const card = document.createElement("article");
+      card.className = "card";
+      card.setAttribute("aria-labelledby", `h-${p.id}`);
+      card.innerHTML = `
         <h3 id="h-${p.id}">${p.title}</h3>
         <div class="content">
-          <a class="btn" href="${p.url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${p.title} in een nieuw tabblad">Openen</a>
+          <a class="btn" href="${p.url}" target="_blank" rel="noopener noreferrer">Openen</a>
           ${p.password ? `<p><small>Wachtwoord: ${p.password}</small></p>` : ""}
-          <div class="qr" aria-hidden="true"><canvas id="qr-${p.id}"></canvas></div>
+          <div class="qr"><canvas id="qr-${p.id}"></canvas></div>
         </div>`;
       return card;
     }
 
-    function renderProjects(){
-      const container=document.getElementById('projects');
-      if(!container) return;
-      container.innerHTML='';
-      projects.forEach(p=>{
-        const card=createProjectCard(p);
+    function renderProjects(){ return; }
+// originele functie uitgeschakeld {
+      const container = document.getElementById("projects");
+      container.innerHTML = "";
+      projects.forEach(p => {
+        const card = createProjectCard(p);
         container.appendChild(card);
-        if(typeof QRious!=='undefined'){
+        if (typeof QRious !== "undefined") {
           new QRious({
-            element:document.getElementById(`qr-${p.id}`),
-            value:p.url,
-            size:84,
-            foreground:'#00AEEF'
+            element: document.getElementById(`qr-${p.id}`),
+            value: p.url,
+            size: 40,
+            foreground: "#00AEEF"
           });
         }
       });
     }
 
-    function initMap(){
-      const el=document.getElementById('map');
-      if(typeof L==='undefined' || !el) return;
-      const map=L.map(el,{scrollWheelZoom:true}).setView([52.15,5.3],8);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-        maxZoom:19,
-        attribution:'&copy; OpenStreetMap-bijdragers'
+    function initMap() {
+      const el = document.getElementById("map");
+      if (typeof L === "undefined" || !el) return;
+      const map = L.map(el, { scrollWheelZoom: true }).setView([52.15, 5.3], 8);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "&copy; OpenStreetMap-bijdragers"
       }).addTo(map);
-      projects.forEach(p=>{
-        if(p.lat&&p.lng){
-          const m=L.marker([p.lat,p.lng]).addTo(map);
-          let popup=`<b>${p.title}</b><br><a href="${p.url}" target="_blank" rel="noopener noreferrer">Open project</a>`;
-          if(p.password){popup+=`<br><small>Wachtwoord: ${p.password}</small>`}
+      projects.forEach(p => {
+        if (p.lat && p.lng) {
+          const m = L.marker([p.lat, p.lng]).addTo(map);
+          let popup = `<b>${p.title}</b><br><a href="${p.url}" target="_blank">Open project</a>`;
+          if (p.password) popup += `<br><small>Wachtwoord: ${p.password}</small>`;
           m.bindPopup(popup);
         }
       });
     }
 
-    document.addEventListener('DOMContentLoaded',()=>{
+    document.addEventListener("DOMContentLoaded", async () => {
+      projects = await loadProjects();
       renderProjects();
       initMap();
     });
-  </script>
+  
+</script>
 
 <div id="agendaModal">
 <div class="modal-content">
