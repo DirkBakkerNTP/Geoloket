@@ -92,13 +92,7 @@
       background:#f9fafb;
     }
 
-  .subnav {
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease;
-  }
+  .subnav { border-top:1px solid var(--card-border); background:#f9fafb; }
   .subnav.open {
     max-height: 500px;
     opacity: 1;
@@ -264,12 +258,7 @@
 
 @media (max-width: 768px) {
   .hamburger { display:block; margin-left:auto; }
-  .subnav {
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: max-height 0.4s ease, opacity 0.3s ease;
-  }
+  .subnav { border-top:1px solid var(--card-border); background:#f9fafb; }
   .subnav.open {
     max-height: 500px;
     opacity: 1;
@@ -564,6 +553,25 @@ body.dark .reservation-content {
 @media (min-width: 1200px) {
   .parallax {min-height:600px;}
 }
+
+@media (max-width: 768px) {
+  .hamburger { display:block; margin-left:auto; }
+  .subnav {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease;
+  }
+  .subnav.open {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .subnav .row { flex-direction: column; gap: 0; }
+  .subnav a { display:block; padding:1rem; border-bottom:1px solid var(--card-border); text-align:center; }
+}
+
 </style>
 <!-- FullCalendar Scheduler -->
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.8/index.global.min.css" rel="stylesheet"/>
@@ -1317,16 +1325,34 @@ window.MaatvoeringCalendar = (function(){
 return { openAgenda, closeAgenda };
 })();
 </script>
+
+
 <script>
 document.addEventListener("DOMContentLoaded", function(){
   const hamburger = document.querySelector(".hamburger");
   const nav = document.querySelector(".subnav");
+
+  // Hamburger toggle met icoon wissel
   hamburger.addEventListener("click", function(){
     const isOpen = nav.classList.toggle("open");
     hamburger.setAttribute("aria-expanded", isOpen);
+    hamburger.textContent = isOpen ? "✖" : "☰";
+  });
+
+  // Automatisch sluiten bij klik op link (met vertraging)
+  nav.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", function(){
+      setTimeout(() => {
+        nav.classList.remove("open");
+        hamburger.setAttribute("aria-expanded", "false");
+        hamburger.textContent = "☰";
+      }, 200);
+    });
   });
 });
 </script>
+
+
 <script>
 document.addEventListener("DOMContentLoaded", function(){
   const toggleBtn = document.getElementById("darkModeToggle");
